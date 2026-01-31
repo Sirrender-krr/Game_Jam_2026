@@ -8,8 +8,8 @@ signal toggle_inventory
 @export var inventory_data: InventoryData
 var interacting
 
-const speed = 100.0
-const run_speed = 170
+const speed = 40.0
+const run_speed = 80
 var accel = speed
 
 enum dir {left, right, up, down}

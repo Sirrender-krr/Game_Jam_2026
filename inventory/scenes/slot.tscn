@@ -4,17 +4,17 @@
 [ext_resource type="FontFile" uid="uid://c65m74bqp0vs3" path="res://assets/fonts/my 3x5 tiny mono pixel font.ttf" id="2_2i5il"]
 
 [node name="Slot" type="PanelContainer"]
-custom_minimum_size = Vector2(26, 26)
+custom_minimum_size = Vector2(30, 30)
 offset_right = 26.0
 offset_bottom = 26.0
 script = ExtResource("1_doh3l")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 7
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer"]
 layout_mode = 2
@@ -31,6 +31,15 @@ vertical_alignment = 2
 [node name="PriceLabel" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("2_2i5il")
+theme_override_font_sizes/font_size = 6
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="SellLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
 size_flags_vertical = 0
 theme_override_fonts/font = ExtResource("2_2i5il")
 theme_override_font_sizes/font_size = 6

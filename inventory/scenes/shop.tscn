@@ -1,0 +1,132 @@
+[gd_scene load_steps=10 format=3 uid="uid://dlybxg1p88x1"]
+
+[ext_resource type="Script" uid="uid://cghlm4q53lo3m" path="res://inventory/scripts/shop.gd" id="1_4dccq"]
+[ext_resource type="Texture2D" uid="uid://uvb4tq2j8g05" path="res://assets/Sprout Lands - Sprites - Basic pack/Tilesets/Tilled_Dirt_Wide.png" id="1_suygq"]
+[ext_resource type="Texture2D" uid="uid://ljl5m0kxj7hf" path="res://assets/Sprout Lands - Sprites - Basic pack/Tilesets/Fences.png" id="2_gjip7"]
+[ext_resource type="Resource" uid="uid://d0fsh3rbwlhgj" path="res://inventory/resources/shop_inventory.tres" id="2_xvvhr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xvvhr"]
+size = Vector2(16, 16)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gjip7"]
+texture = ExtResource("1_suygq")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+8:1/0 = 0
+9:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+9:2/0 = 0
+10:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+9:3/0 = 0
+10:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+8:6/0 = 0
+9:6/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_4dccq"]
+sources/0 = SubResource("TileSetAtlasSource_gjip7")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4dccq"]
+texture = ExtResource("2_gjip7")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -4, 4, -4, 4, 8, -4, 8)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -4, 4, -4, 4, -8, 4, 0, 8, 0, 8, 4, 4, 4, 4, 8, -4, 8)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -4, 4, -4, 4, 0, 8, 0, 8, 4, 4, 4, 4, 8, -4, 8, -4, 4, -8, 4, -8, 0, -4, 0)
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -4, 4, -4, 4, 0, 4, 4, 4, 8, -4, 8, -4, 4, -8, 4, -8, 0, -4, 0)
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -8, 4, -8, 4, 8, -4, 8)
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -8, 4, -8, 4, 4, -4, 4)
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_xvvhr"]
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 2
+sources/0 = SubResource("TileSetAtlasSource_4dccq")
+
+[node name="Shop" type="Area2D" groups=["shop_house"]]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_4dccq")
+inv_data = ExtResource("2_xvvhr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(24, 24)
+shape = SubResource("RectangleShape2D_xvvhr")
+
+[node name="ground" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray(0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 3, 0, 0, 0)
+tile_set = SubResource("TileSet_4dccq")
+
+[node name="fence" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0)
+tile_set = SubResource("TileSet_xvvhr")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

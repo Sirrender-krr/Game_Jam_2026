@@ -22,7 +22,7 @@ func grab_slot_data_shop(index: int) -> SlotData:
 	
 	if slot_data:
 		#slot_datas[index] = null
-		inventory_updated.emit(self)
+		inventory_updated.emit(self,'shop')
 		return slot_data.duplicate()
 	else:
 		return null
@@ -46,7 +46,7 @@ func drop_slot_data_shop(grabbed_slot_data: SlotData, index: int) -> SlotData:
 	var return_slot_data: SlotData
 	return_slot_data = null
 	
-	inventory_updated.emit(self)
+	inventory_updated.emit(self,'shop')
 	return return_slot_data
 
 func drop_single_slot_data(grabbed_slot_data: SlotData, index: int) -> SlotData:
@@ -72,7 +72,7 @@ func drop_single_slot_data_shop(grabbed_slot_data: SlotData, index: int) -> Slot
 	#elif slot_data.can_merge_with(grabbed_slot_data):
 		#slot_data.fully_merge_with(grabbed_slot_data.create_single_slot_data_shop())
 	
-	inventory_updated.emit(self)
+	inventory_updated.emit(self,'shop')
 	
 	if grabbed_slot_data.quantity >0:
 		return grabbed_slot_data

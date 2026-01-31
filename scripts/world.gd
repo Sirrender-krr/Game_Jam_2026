@@ -22,8 +22,8 @@ func connect_external_inventory_signal() -> void:
 		node.toggle_inventory.connect(toggle_inventory_interface)
 		#node.chest_broke.connect(_on_chest_broke)
 		#
-	#for node in get_tree().get_nodes_in_group("shop_house"):
-		#node.toggle_inventory.connect(toggle_inventory_interface)
+	for node in get_tree().get_nodes_in_group("shop_house"):
+		node.toggle_inventory.connect(toggle_inventory_interface)
 
 func toggle_inventory_interface(external_inventory_owner = null) -> void:
 	inventory_interface.visible = not inventory_interface.visible

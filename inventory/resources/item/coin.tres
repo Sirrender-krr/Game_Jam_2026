@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemDataCoin" load_steps=4 format=3 uid="uid://bdpule7naqk65"]
+
+[ext_resource type="Script" uid="uid://cb3iplrjbesvw" path="res://inventory/scripts/item_data_coin.gd" id="1_cktra"]
+[ext_resource type="Texture2D" uid="uid://do1880lb0k1rf" path="res://assets/coin/coin.png" id="2_cjtpp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drco3"]
+atlas = ExtResource("2_cjtpp")
+region = Rect2(0, 0, 16, 16)
+
+[resource]
+script = ExtResource("1_cktra")
+name = "Coin"
+description = "A medium of exchange."
+stackable = true
+MAX_STACK_SIZE = 999999999
+buy = 1
+sell = 1
+texture = SubResource("AtlasTexture_drco3")
+metadata/_custom_type_script = "uid://cb3iplrjbesvw"

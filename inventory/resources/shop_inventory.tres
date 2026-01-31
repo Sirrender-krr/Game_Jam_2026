@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="InventoryData" load_steps=5 format=3 uid="uid://d0fsh3rbwlhgj"]
+
+[ext_resource type="Script" uid="uid://jxon5aa0tqep" path="res://inventory/scripts/inventory_data.gd" id="1_ibjw5"]
+[ext_resource type="Script" uid="uid://dag484yovhp5d" path="res://inventory/scripts/slot_data.gd" id="2_xgu8t"]
+[ext_resource type="Resource" uid="uid://75r21st16h2h" path="res://inventory/resources/item/mask02.tres" id="3_juo4u"]
+
+[sub_resource type="Resource" id="Resource_8k4qs"]
+script = ExtResource("2_xgu8t")
+item_data = ExtResource("3_juo4u")
+quantity = 1
+metadata/_custom_type_script = "uid://dag484yovhp5d"
+
+[resource]
+script = ExtResource("1_ibjw5")
+slot_datas = Array[ExtResource("2_xgu8t")]([SubResource("Resource_8k4qs"), null, null, null, null, null, null, null])
+metadata/_custom_type_script = "uid://jxon5aa0tqep"
