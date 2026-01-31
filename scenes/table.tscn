@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://vgpa51gccitb"]
+
+[ext_resource type="Texture2D" uid="uid://ba6188oh2eysx" path="res://assets/Sprout Lands - Sprites - Basic pack/Objects/Basic_Furniture.png" id="1_02ppr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eotx8"]
+atlas = ExtResource("1_02ppr")
+region = Rect2(48, 48, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x8522"]
+size = Vector2(14, 8)
+
+[node name="table" type="StaticBody2D" groups=["external_inventory"]]
+collision_layer = 4
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_eotx8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_x8522")
