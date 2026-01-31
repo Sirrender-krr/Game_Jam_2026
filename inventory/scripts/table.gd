@@ -1,4 +1,5 @@
 extends StaticBody2D
+class_name table
 
 signal toggle_inventory(external_inventory_owner)
 #signal chest_broke(external_inventory_owner, pos)
@@ -25,6 +26,9 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		var player = body
 		toggle_inventory.emit(self)
 		player.interacting = self
+	if body is NPC:
+		var npc = body
+		npc.table_inv = inventory_data
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
@@ -32,6 +36,9 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 		var player = body
 		player.interacting = null
 		chest_close()
+	if body is NPC:
+		var npc = body
+		npc.table_inv = null
 
 
 func chest_close() -> void:

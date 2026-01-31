@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dbu2s0t1266h5"]
+[gd_scene load_steps=18 format=3 uid="uid://dbu2s0t1266h5"]
 
 [ext_resource type="Script" uid="uid://30ddpxufjhvm" path="res://scripts/world.gd" id="1_71j4m"]
 [ext_resource type="PackedScene" uid="uid://b8tb5a0e70mwc" path="res://scenes/player.tscn" id="1_nnsk1"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://vgpa51gccitb" path="res://inventory/scenes/table.tscn" id="6_qfnet"]
 [ext_resource type="PackedScene" uid="uid://bcf5xhx5qj3oo" path="res://scenes/pricing_panel.tscn" id="8_w7kh3"]
 [ext_resource type="PackedScene" uid="uid://dlybxg1p88x1" path="res://inventory/scenes/shop.tscn" id="9_7r4gi"]
+[ext_resource type="PackedScene" uid="uid://b8dw8wqvmttig" path="res://scenes/npc.tscn" id="11_e3hyu"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nnsk1"]
 
@@ -27,6 +28,12 @@ script = ExtResource("5_7r4gi")
 item_data = ExtResource("4_4mrxx")
 quantity = 1
 metadata/_custom_type_script = "uid://dag484yovhp5d"
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_e3hyu"]
+vertices = PackedVector2Array(269, 91, 317, 91, 317, 117, 3, 117, 3, 59, 269, 59)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(0, 3, 4, 5)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(0, 56, 272, 56, 272, 88, 320, 88, 320, 120, 0, 120)])
+agent_radius = 3.0
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
@@ -123,6 +130,46 @@ position = Vector2(160, 88)
 
 [node name="Shop" parent="." instance=ExtResource("9_7r4gi")]
 position = Vector2(272, 56)
+
+[node name="Npc" parent="." instance=ExtResource("11_e3hyu")]
+position = Vector2(248, 112)
+
+[node name="Navigation" type="Node" parent="."]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Navigation"]
+visible = false
+navigation_polygon = SubResource("NavigationPolygon_e3hyu")
+
+[node name="Polygon2D" type="Polygon2D" parent="Navigation"]
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0)
+polygon = PackedVector2Array(152, 80, 168, 80, 168, 96, 152, 96)
+
+[node name="Markers" type="Node" parent="."]
+
+[node name="EndLeftMarker" type="Marker2D" parent="Markers"]
+position = Vector2(-32, 88)
+
+[node name="LeftMarker1" type="Marker2D" parent="Markers"]
+position = Vector2(104, 80)
+
+[node name="LeftMarker2" type="Marker2D" parent="Markers"]
+position = Vector2(112, 104)
+
+[node name="MidMarker" type="Marker2D" parent="Markers"]
+position = Vector2(160, 112)
+
+[node name="RightMarker2" type="Marker2D" parent="Markers"]
+position = Vector2(200, 104)
+
+[node name="RightMarker1" type="Marker2D" parent="Markers"]
+position = Vector2(216, 80)
+
+[node name="TableMarker" type="Marker2D" parent="Markers"]
+position = Vector2(160, 96)
+
+[node name="EndRightMarker" type="Marker2D" parent="Markers"]
+position = Vector2(352, 88)
 
 [connection signal="gui_input" from="CanvasLayer/InventoryInterface" to="CanvasLayer/InventoryInterface" method="_on_gui_input"]
 [connection signal="visibility_changed" from="CanvasLayer/InventoryInterface" to="CanvasLayer/InventoryInterface" method="_on_visibility_changed"]

@@ -12,7 +12,7 @@ region = Rect2(48, 48, 16, 16)
 size = Vector2(14, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7chct"]
-size = Vector2(28, 28)
+size = Vector2(46, 34)
 
 [node name="table" type="StaticBody2D" groups=["external_inventory"]]
 collision_layer = 4
@@ -28,7 +28,7 @@ position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_x8522")
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_mask = 2
+collision_mask = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_7chct")
