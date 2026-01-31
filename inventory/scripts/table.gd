@@ -20,16 +20,18 @@ func player_interact() -> void:
 
 
 
-func _on_area_2d_body_entered(body: Player) -> void:
-	var player = body
-	toggle_inventory.emit(self)
-	player.interacting = self
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body is Player:
+		var player = body
+		toggle_inventory.emit(self)
+		player.interacting = self
 
 
-func _on_area_2d_body_exited(body: Player) -> void:
-	var player = body
-	player.interacting = null
-	chest_close()
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	if body is Player:
+		var player = body
+		player.interacting = null
+		chest_close()
 
 
 func chest_close() -> void:

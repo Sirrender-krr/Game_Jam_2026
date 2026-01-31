@@ -1,0 +1,96 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcf5xhx5qj3oo"]
+
+[ext_resource type="Script" uid="uid://byi7p2r2k7ppa" path="res://scripts/pricing_panel.gd" id="1_equlw"]
+[ext_resource type="Texture2D" uid="uid://6pngdj1a4msw" path="res://assets/masks/Mask02.png" id="1_jrska"]
+
+[node name="PricingPanel" type="Panel"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -30.0
+offset_right = 56.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_equlw")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+offset_left = 8.0
+offset_top = 20.0
+offset_right = 24.0
+offset_bottom = 36.0
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer"]
+layout_mode = 2
+texture = ExtResource("1_jrska")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+offset_left = 32.0
+offset_top = 4.0
+offset_right = 88.0
+offset_bottom = 12.0
+theme_override_font_sizes/font_size = 6
+text = "Suggest price:"
+
+[node name="SuggestPriceLabel" type="Label" parent="."]
+layout_mode = 2
+offset_left = 88.0
+offset_top = 4.0
+offset_right = 104.0
+offset_bottom = 12.0
+theme_override_font_sizes/font_size = 6
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+offset_left = 32.0
+offset_top = 20.0
+offset_right = 88.0
+offset_bottom = 28.0
+theme_override_font_sizes/font_size = 6
+text = "Selling price:"
+
+[node name="SellingPriceLabel" type="Label" parent="."]
+layout_mode = 2
+offset_left = 88.0
+offset_top = 20.0
+offset_right = 104.0
+offset_bottom = 28.0
+theme_override_font_sizes/font_size = 6
+
+[node name="LessButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 28.0
+offset_right = 64.0
+offset_bottom = 42.0
+theme_override_font_sizes/font_size = 6
+text = "Less"
+
+[node name="MoreButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 28.0
+offset_right = 96.0
+offset_bottom = 42.0
+theme_override_font_sizes/font_size = 6
+text = "More"
+
+[node name="ConfirmButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 44.0
+offset_right = 96.0
+offset_bottom = 58.0
+theme_override_font_sizes/font_size = 6
+text = "Confirm"
+
+[connection signal="button_down" from="LessButton" to="." method="_on_less_button_button_down"]
+[connection signal="pressed" from="MoreButton" to="." method="_on_more_button_pressed"]
+[connection signal="pressed" from="ConfirmButton" to="." method="_on_confirm_button_pressed"]

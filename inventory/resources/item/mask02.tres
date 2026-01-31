@@ -9,10 +9,11 @@ atlas = ExtResource("2_j0ioo")
 [resource]
 script = ExtResource("1_fghao")
 name = "Mask02"
-description = null
+description = ""
 stackable = true
 MAX_STACK_SIZE = 10
 buy = 500
 sell = 1000
+suggest_selling = 1000
 texture = SubResource("AtlasTexture_qjmfr")
 metadata/_custom_type_script = "uid://bgp2n2y2pm7qf"

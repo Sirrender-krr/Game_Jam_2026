@@ -7,4 +7,5 @@ class_name ItemData
 @export var MAX_STACK_SIZE: int = 1
 @export var buy: int
 @export var sell: int
+@export var suggest_selling: int
 @export var texture: AtlasTexture

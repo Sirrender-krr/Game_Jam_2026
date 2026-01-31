@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dbu2s0t1266h5"]
+[gd_scene load_steps=16 format=3 uid="uid://dbu2s0t1266h5"]
 
 [ext_resource type="Script" uid="uid://30ddpxufjhvm" path="res://scripts/world.gd" id="1_71j4m"]
 [ext_resource type="PackedScene" uid="uid://b8tb5a0e70mwc" path="res://scenes/player.tscn" id="1_nnsk1"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c1vmwhuvm7g3s" path="res://inventory/scenes/slot.tscn" id="4_qfnet"]
 [ext_resource type="Script" uid="uid://dag484yovhp5d" path="res://inventory/scripts/slot_data.gd" id="5_7r4gi"]
 [ext_resource type="PackedScene" uid="uid://vgpa51gccitb" path="res://inventory/scenes/table.tscn" id="6_qfnet"]
+[ext_resource type="PackedScene" uid="uid://bcf5xhx5qj3oo" path="res://scenes/pricing_panel.tscn" id="8_w7kh3"]
 [ext_resource type="PackedScene" uid="uid://dlybxg1p88x1" path="res://inventory/scenes/shop.tscn" id="9_7r4gi"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nnsk1"]
@@ -39,7 +40,7 @@ offset_bottom = 343.0
 color = Color(1, 0.658824, 0.407843, 0.0862745)
 
 [node name="Player" parent="." instance=ExtResource("1_nnsk1")]
-position = Vector2(56, 80)
+position = Vector2(136, 80)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 limit_left = 0
@@ -97,7 +98,6 @@ COIN = SubResource("Resource_w7kh3")
 
 [node name="PlayerInventory" parent="CanvasLayer/InventoryInterface" instance=ExtResource("3_71j4m")]
 layout_mode = 0
-offset_right = 136.0
 offset_bottom = 60.0
 
 [node name="ExternalInventory" parent="CanvasLayer/InventoryInterface" instance=ExtResource("3_71j4m")]
@@ -105,7 +105,6 @@ visible = false
 layout_mode = 0
 offset_left = 184.0
 offset_right = 320.0
-offset_bottom = 34.0
 
 [node name="GrabSlot" parent="CanvasLayer/InventoryInterface" instance=ExtResource("4_qfnet")]
 visible = false
@@ -114,6 +113,10 @@ self_modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_right = 30.0
 offset_bottom = 30.0
+
+[node name="PricingPanel" parent="CanvasLayer/InventoryInterface" instance=ExtResource("8_w7kh3")]
+visible = false
+layout_mode = 1
 
 [node name="table" parent="." instance=ExtResource("6_qfnet")]
 position = Vector2(160, 88)

@@ -15,5 +15,6 @@ stackable = true
 MAX_STACK_SIZE = 999999999
 buy = 1
 sell = 1
+suggest_selling = 1
 texture = SubResource("AtlasTexture_drco3")
 metadata/_custom_type_script = "uid://cb3iplrjbesvw"

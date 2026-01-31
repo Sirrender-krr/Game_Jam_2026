@@ -15,6 +15,7 @@ var coins:
 @onready var player_inventory: PanelContainer = $PlayerInventory
 @onready var grab_slot: PanelContainer = $GrabSlot
 @onready var external_inventory: PanelContainer = $ExternalInventory
+@onready var pricing_panel: Panel = $PricingPanel
 
 
 
@@ -60,11 +61,22 @@ func on_inventory_interact(inventory_data: InventoryData, index: int, button: in
 		[null,MOUSE_BUTTON_LEFT]:
 			grabbed_slot_data = inventory_data.grab_slot_data(index)
 		[_,MOUSE_BUTTON_LEFT]:
-			grabbed_slot_data = inventory_data.drop_slot_data(grabbed_slot_data,index)
+			if inventory_data is InventoryDataTable and grabbed_slot_data.item_data is not ItemDataCoin:
+				pricing_panel.show()
+				var return_slot = pricing_panel.open_price_panel(grabbed_slot_data,index, inventory_data)
+				grabbed_slot_data = inventory_data.drop_slot_data(return_slot,index)
+			else:
+				grabbed_slot_data = inventory_data.drop_slot_data(grabbed_slot_data,index)
 		[null,MOUSE_BUTTON_RIGHT]:
-			inventory_data.use_slot_data(index)
+			#inventory_data.use_slot_data(index)
+			pass
 		[_,MOUSE_BUTTON_RIGHT]:
-			grabbed_slot_data = inventory_data.drop_single_slot_data(grabbed_slot_data,index)
+			if inventory_data is InventoryDataTable and grabbed_slot_data.item_data is not ItemDataCoin:
+				pricing_panel.show()
+				var return_slot = pricing_panel.open_price_panel(grabbed_slot_data,index, inventory_data)
+				grabbed_slot_data = inventory_data.drop_single_slot_data(return_slot,index)
+			else:
+				grabbed_slot_data = inventory_data.drop_single_slot_data(grabbed_slot_data,index)
 	update_grabbed_slot()
 
 func update_grabbed_slot() -> void:
