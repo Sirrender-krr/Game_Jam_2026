@@ -27,6 +27,16 @@ func grab_slot_data_shop(index: int) -> SlotData:
 	else:
 		return null
 
+func grab_slot_data_npc(index: int) -> void:
+	
+	var slot_data = slot_datas[index]
+	
+	if slot_data:
+		slot_datas[index] = null
+		inventory_updated.emit(self)
+		return
+	else:
+		return
 
 func drop_slot_data(grabbed_slot_data: SlotData, index: int) -> SlotData:
 	var slot_data = slot_datas[index]

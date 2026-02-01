@@ -5,6 +5,9 @@ signal toggle_inventory
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var nav2d: NavigationAgent2D = $NavigationAgent2D
+@onready var chat_box: Label = $ChatBox
+@onready var texture_rect: TextureRect = $TextureRect
+
 
 const MASK_02 = preload("res://inventory/resources/item/mask02.tres")
 var slot = SlotData.new()
@@ -22,6 +25,8 @@ enum State {idle, walk}
 var direction = dir.down
 var state = State.idle
 
+var inventory_interface
+
 var end_left: Vector2
 var end_right: Vector2
 var left_1: Vector2
@@ -31,15 +36,21 @@ var right_1: Vector2
 var right_2: Vector2
 var table_spot: Vector2
 var leave_dir: Vector2
-var target_position: Array[Vector2] =[]
+var first_target:Array
+var last_target:Array
+var all_target: Array
 
-
-var current_target_index: int = 0
+var current_target_index: int = 0:
+	set(value):
+		current_target_index = clamp(value,0,2)
 
 func _ready() -> void:
 	slot.item_data = MASK_02
 	print("name: %s\nbuy: %s\nqty: %s" %[slot.item_data.name,slot.item_data.sell,slot.quantity])
 	call_deferred("assign_marker")
+	nav2d.navigation_finished.connect(_on_target_reached)
+	chat_box.hide()
+	texture_rect.hide()
 
 func assign_marker():
 	end_left = get_parent().end_left_marker.global_position
@@ -50,24 +61,36 @@ func assign_marker():
 	mid = get_parent().mid_marker.global_position
 	right_1 = get_parent().right_marker_1.global_position
 	right_2 = get_parent().right_marker_2.global_position
+	inventory_interface = get_parent().inventory_interface
+	
+	first_target = [left_1,left_2,mid,right_1,right_2]
+	last_target = [end_left,end_right]
 	
 	randomize()
-	var ran = randf()
-	if ran >= 0.8:
-		nav2d.target_position = left_1
-	elif ran >= 0.6:
-		nav2d.target_position = left_2
-	elif ran >= 0.4:
-		nav2d.target_position = mid
-	elif ran >= 0.2:
-		nav2d.target_position = right_2
-	elif ran >= 0.0:
-		nav2d.target_position = right_1
-	var ran_leave = randf()
-	if ran_leave >= 0.5:
-		leave_dir = end_left
-	elif ran_leave <0.5:
-		leave_dir = end_right
+	var ran1 = randi_range(0,4)
+	var ran2 = randi_range(0,1)
+	
+	all_target = [first_target[ran1],mid,last_target[ran2]]
+	_set_next_target()
+	#var ran = randf()
+	#if ran >= 0.8:
+		#nav2d.target_position = left_1
+	#elif ran >= 0.6:
+		#nav2d.target_position = left_2
+	#elif ran >= 0.4:
+		#nav2d.target_position = mid
+	#elif ran >= 0.2:
+		#nav2d.target_position = right_2
+	#elif ran >= 0.0:
+		#nav2d.target_position = right_1
+	#var ran_leave = randf()
+	#if ran_leave >= 0.5:
+		#leave_dir = end_left
+	#elif ran_leave <0.5:
+		#leave_dir = end_right
+
+func _set_next_target():
+	nav2d.target_position = all_target[current_target_index]
 
 func _physics_process(delta):
 	handle_movement()
@@ -75,55 +98,79 @@ func _physics_process(delta):
 	handle_animation()
 	navigate(delta)
 	interact()
+	#manual_navigation() #debug
+
+#
+### a temporary function
+#func manual_navigation() -> void:
+	#if Input.is_action_just_pressed("click"):
+		#nav2d.target_position = get_global_mouse_position()
 
 func navigate(delta:float) -> void:
-	if nav2d.is_target_reached():
+	if nav2d.is_navigation_finished():
 		velocity = Vector2.ZERO
-		await get_tree().create_timer(2).timeout
-		to_table(delta)
 		return
 	var next_path_position: Vector2 = nav2d.get_next_path_position()
 	velocity= (global_position.direction_to(next_path_position) * speed)
 	position += velocity * delta
 
-func to_table(delta) -> void:
-	nav2d.target_position = table_spot
-	if nav2d.is_navigation_finished():
-		velocity = Vector2.ZERO
-		await get_tree().create_timer(2).timeout
+func _on_target_reached() -> void:
+	velocity = Vector2.ZERO
+	if current_target_index >= 2:
+		print("done")
+		queue_free()
+	
+	if current_target_index == 0:
+		texture_rect.texture = slot.item_data.texture
+		texture_rect.show()
+	
+	if current_target_index == 1:
+		await get_tree().create_timer(1).timeout
 		buy()
-		leave(delta)
-		return
-	var next_path_position: Vector2 = nav2d.get_next_path_position()
-	velocity= (
-		global_position.direction_to(next_path_position) * speed
-	)
-	position += velocity * delta
+	await get_tree().create_timer(2).timeout
+	chat_box.hide()
+	texture_rect.hide()
+	
+	current_target_index += 1
+	
+	if current_target_index < all_target.size():
+		_set_next_target()
+	
+
+		
 
 func buy() -> void:
 	if table_inv:
 		var slot_data = table_inv.slot_datas
 		for i in range(slot_data.size()):
 			if slot_data[i] and slot_data[i].item_data.name == slot.item_data.name:
-				print("found")
-				return
-			else:
-				print('not found')
-				return
+				if !random_acceptable_price(slot_data[i].item_data.sell):
+					chat_box.show()
+					chat_box.text = "What a price, this is tooooooo expensive"
+					return
+				elif random_acceptable_price(slot_data[i].item_data.sell):
+					inventory_interface.gain_money_npc(slot_data[i],slot_data[i].quantity)
+					table_inv.grab_slot_data_npc(i)
+					chat_box.show()
+					chat_box.text = "Good Price. I can buy them all!"
+					return
+
+			#else:
+		chat_box.show()
+		chat_box.text = "Too bad, you did't sell it."
+				#print('not found')
+				#pass
 	else:
 		return
 
-func leave(delta) -> void:
-	nav2d.target_position = leave_dir
-	if nav2d.is_navigation_finished():
-		queue_free()
-		return
-	var next_path_position: Vector2 = nav2d.get_next_path_position()
-	velocity= (
-		global_position.direction_to(next_path_position) * speed
-	)
-	position += velocity * delta
+func random_acceptable_price(price) -> bool:
+	randomize()
+	var x = randi_range(0,3)
+	var threshold = [1.0,1.1,1.2,1.3]
+	print("I expect: ",slot.item_data.suggest_selling * threshold[x])
+	return slot.item_data.suggest_selling * threshold[x] >= price
 
+#region movement and animation
 func handle_movement() -> void:
 	if can_walk():
 		if velocity.length() == 0:
@@ -191,3 +238,4 @@ func interact() -> void:
 		interacting.player_interact()
 	else:
 		pass
+#endregion

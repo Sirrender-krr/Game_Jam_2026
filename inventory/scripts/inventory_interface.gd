@@ -108,8 +108,9 @@ func _on_gui_input(event: InputEvent) -> void:
 		#else:
 		match event.button_index:
 			MOUSE_BUTTON_LEFT:
-				drop_slot_data.emit(grabbed_slot_data)
-				grabbed_slot_data = null
+				#drop_slot_data.emit(grabbed_slot_data)
+				#grabbed_slot_data = null
+				return
 			MOUSE_BUTTON_RIGHT:
 				drop_slot_data.emit(grabbed_slot_data.create_single_slot_data())
 				if grabbed_slot_data.quantity < 1:
@@ -173,6 +174,26 @@ func gain_money(slot_data:SlotData,qty:int) -> void:
 	for index in range(slots.size()):
 		if !slots[index]:
 			coin.quantity = slot_data.item_data.buy * qty
+			slots[index] = coin
+			inventory.inventory_updated.emit(inventory)
+			return
+
+func gain_money_npc(slot_data:SlotData,qty:int) -> void:
+	var inventory = player_inventory_data as InventoryData
+	var coin = COIN.duplicate() as SlotData
+	coin.quantity = 0
+	var slots = inventory.slot_datas
+	for i in slots:
+		if i:
+			if i.item_data is ItemDataCoin:
+				i.quantity += slot_data.item_data.sell * qty
+				coins = i.quantity
+				inventory.inventory_updated.emit(inventory)
+				return
+
+	for index in range(slots.size()):
+		if !slots[index]:
+			coin.quantity = slot_data.item_data.sell * qty
 			slots[index] = coin
 			inventory.inventory_updated.emit(inventory)
 			return

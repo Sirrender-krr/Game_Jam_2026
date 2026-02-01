@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://b8dw8wqvmttig"]
+[gd_scene load_steps=22 format=3 uid="uid://b8dw8wqvmttig"]
 
 [ext_resource type="Script" uid="uid://cp3b04hli7o32" path="res://scripts/npc.gd" id="1_abqhh"]
 [ext_resource type="Texture2D" uid="uid://cmchfie0ucqjw" path="res://assets/Sprout Lands - Sprites - Basic pack/Characters/Basic Charakter Spritesheet.png" id="3_4wlns"]
@@ -161,10 +161,12 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_i4ail"]
 radius = 3.0
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_abqhh"]
+
 [node name="Npc" type="CharacterBody2D"]
 y_sort_enabled = true
 collision_layer = 8
-collision_mask = 4
+collision_mask = 0
 script = ExtResource("1_abqhh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -179,7 +181,24 @@ position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_i4ail")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-target_desired_distance = 15.0
-path_postprocessing = 1
 avoidance_enabled = true
 debug_enabled = true
+
+[node name="ChatBox" type="Label" parent="."]
+z_index = 5
+offset_left = -24.0
+offset_top = -48.0
+offset_right = 24.0
+offset_bottom = -18.0
+theme_override_colors/font_color = Color(0.521569, 0.662745, 0.639216, 1)
+theme_override_font_sizes/font_size = 6
+text = "What a price, this is tooooooo expensive"
+autowrap_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = 3
+offset_left = -8.0
+offset_top = -40.0
+offset_right = 8.0
+offset_bottom = -24.0
+texture = SubResource("AtlasTexture_abqhh")

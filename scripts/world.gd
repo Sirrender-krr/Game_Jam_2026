@@ -4,7 +4,6 @@ extends Node2D
 @export var ground_tilemap_layer: TileMapLayer
 
 signal inv_show(inv_visible: bool)
-@onready var end_left_marker: Marker2D = $Markers/EndLeftMarker
 @onready var left_marker_1: Marker2D = $Markers/LeftMarker1
 @onready var left_marker_2: Marker2D = $Markers/LeftMarker2
 @onready var mid_marker: Marker2D = $Markers/MidMarker
@@ -12,6 +11,8 @@ signal inv_show(inv_visible: bool)
 @onready var right_marker_1: Marker2D = $Markers/RightMarker1
 @onready var table_marker: Marker2D = $Markers/TableMarker
 @onready var end_right_marker: Marker2D = $Markers/EndRightMarker
+@onready var end_left_marker: Marker2D = $Markers/EndLeftMarker
+@onready var color_rect: ColorRect = $ColorRect
 
 
 
@@ -25,6 +26,7 @@ func _ready() -> void:
 	#inventory_interface.drop_slot_data.connect(_on_inventory_interface_drop_slot_data)
 	#hot_bar_inventory.set_inventory_data(player.inventory_data)
 	connect_external_inventory_signal()
+	color_rect.show()
 
 
 
