@@ -13,7 +13,13 @@ signal inv_show(inv_visible: bool)
 @onready var end_right_marker: Marker2D = $Markers/EndRightMarker
 @onready var end_left_marker: Marker2D = $Markers/EndLeftMarker
 @onready var color_rect: ColorRect = $ColorRect
+@onready var npc_spawn_timer: Timer = $NpcSpawnTimer
+@onready var tab_animation: AnimatedSprite2D = $CanvasLayer/GUI/Tab_animation
+@onready var e_animation: AnimatedSprite2D = $CanvasLayer/GUI/E_animation
+@onready var shift_animation: AnimatedSprite2D = $CanvasLayer/GUI/ShiftAnimation
 
+
+const NPC = preload("res://scenes/npc/npc.tscn")
 
 
 @onready var player: Player = $Player
@@ -27,8 +33,32 @@ func _ready() -> void:
 	#hot_bar_inventory.set_inventory_data(player.inventory_data)
 	connect_external_inventory_signal()
 	color_rect.show()
+	await get_tree(). create_timer(10).timeout
+	spawn_npc()
+	tab_animation.frame = 0
+	e_animation.frame = 0
+	shift_animation.frame = 0
+	
 
+func spawn_npc() -> void:
+	var npc = NPC.instantiate()
+	randomize()
+	var spawn_pos = [end_left_marker.global_position,end_right_marker.global_position]
+	
+	npc.global_position = spawn_pos[randi_range(0,1)]
+	add_child(npc)
+	npc_spawn_timer.wait_time = randi_range(1,10)
+	npc_spawn_timer.start()
 
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("inventory"):
+			tab_animation.play()
+	if Input.is_action_just_pressed("interact"):
+		e_animation.play()
+	if Input.is_action_just_pressed("run"):
+		shift_animation.play()
+	elif Input.is_action_just_released("run"):
+		shift_animation.play_backwards()
 
 func connect_external_inventory_signal() -> void:
 	for node in get_tree().get_nodes_in_group("external_inventory"):
@@ -146,3 +176,7 @@ func toggle_inventory_interface(external_inventory_owner = null) -> void:
 	#var cell_position = ground_tilemap_layer.local_to_map(location)
 	#var local_cell_position = ground_tilemap_layer.map_to_local(cell_position)
 	#return local_cell_position
+
+
+func _on_npc_spawn_timer_timeout() -> void:
+	spawn_npc()

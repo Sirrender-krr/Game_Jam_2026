@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dlybxg1p88x1"]
+[gd_scene load_steps=15 format=3 uid="uid://dlybxg1p88x1"]
 
 [ext_resource type="Script" uid="uid://cghlm4q53lo3m" path="res://inventory/scripts/shop.gd" id="1_4dccq"]
 [ext_resource type="Texture2D" uid="uid://uvb4tq2j8g05" path="res://assets/Sprout Lands - Sprites - Basic pack/Tilesets/Tilled_Dirt_Wide.png" id="1_suygq"]
 [ext_resource type="Texture2D" uid="uid://ljl5m0kxj7hf" path="res://assets/Sprout Lands - Sprites - Basic pack/Tilesets/Fences.png" id="2_gjip7"]
 [ext_resource type="Resource" uid="uid://d0fsh3rbwlhgj" path="res://inventory/resources/shop_inventory.tres" id="2_xvvhr"]
+[ext_resource type="Texture2D" uid="uid://if1jcfwc0t5l" path="res://assets/Key/gdb-keyboard-2.png" id="5_vswcu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xvvhr"]
 size = Vector2(16, 16)
@@ -110,6 +111,38 @@ physics_layer_0/collision_layer = 4
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_4dccq")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_mr0y6"]
+atlas = ExtResource("5_vswcu")
+region = Rect2(96, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ivrau"]
+atlas = ExtResource("5_vswcu")
+region = Rect2(96, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p0yra"]
+atlas = ExtResource("5_vswcu")
+region = Rect2(96, 272, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d5jc4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mr0y6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ivrau")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p0yra")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mr0y6")
+}],
+"loop": false,
+"name": &"default",
+"speed": 50.0
+}]
+
 [node name="Shop" type="Area2D" groups=["shop_house"]]
 collision_layer = 0
 collision_mask = 2
@@ -127,6 +160,20 @@ tile_set = SubResource("TileSet_4dccq")
 [node name="fence" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0)
 tile_set = SubResource("TileSet_xvvhr")
+
+[node name="Label" type="Label" parent="."]
+offset_top = -32.0
+offset_right = 48.0
+offset_bottom = -23.0
+theme_override_colors/font_color = Color(0.27451, 0.831373, 0, 1)
+theme_override_font_sizes/font_size = 6
+text = "Resuply here"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(24, -16)
+sprite_frames = SubResource("SpriteFrames_d5jc4")
+frame = 2
+frame_progress = 1.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

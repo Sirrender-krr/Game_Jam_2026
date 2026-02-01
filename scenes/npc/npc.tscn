@@ -1,7 +1,16 @@
-[gd_scene load_steps=22 format=3 uid="uid://b8dw8wqvmttig"]
+[gd_scene load_steps=24 format=3 uid="uid://b8dw8wqvmttig"]
 
 [ext_resource type="Script" uid="uid://cp3b04hli7o32" path="res://scripts/npc.gd" id="1_abqhh"]
+[ext_resource type="Shader" uid="uid://d0xybyos71ai2" path="res://scenes/npc/npc.gdshader" id="2_dpyoa"]
 [ext_resource type="Texture2D" uid="uid://cmchfie0ucqjw" path="res://assets/Sprout Lands - Sprites - Basic pack/Characters/Basic Charakter Spritesheet.png" id="3_4wlns"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r4bp4"]
+resource_local_to_scene = true
+shader = ExtResource("2_dpyoa")
+shader_parameter/original_0 = Color(0.956863, 0.952941, 0.768627, 1)
+shader_parameter/original_1 = Color(0.360784, 0.305882, 0.572549, 1)
+shader_parameter/replace_0 = Color(0.956863, 0.952941, 0.768627, 1)
+shader_parameter/replace_1 = Color(0.360784, 0.305882, 0.572549, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dqkch"]
 atlas = ExtResource("3_4wlns")
@@ -170,6 +179,7 @@ collision_mask = 0
 script = ExtResource("1_abqhh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_r4bp4")
 sprite_frames = SubResource("SpriteFrames_60mlk")
 animation = &"idle_down"
 autoplay = "idle_down"
@@ -182,7 +192,6 @@ shape = SubResource("CircleShape2D_i4ail")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true
-debug_enabled = true
 
 [node name="ChatBox" type="Label" parent="."]
 z_index = 5

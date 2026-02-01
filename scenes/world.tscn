@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dbu2s0t1266h5"]
+[gd_scene load_steps=30 format=3 uid="uid://dbu2s0t1266h5"]
 
 [ext_resource type="Script" uid="uid://30ddpxufjhvm" path="res://scripts/world.gd" id="1_71j4m"]
 [ext_resource type="PackedScene" uid="uid://b8tb5a0e70mwc" path="res://scenes/player.tscn" id="1_nnsk1"]
@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://vgpa51gccitb" path="res://inventory/scenes/table.tscn" id="6_qfnet"]
 [ext_resource type="PackedScene" uid="uid://bcf5xhx5qj3oo" path="res://scenes/pricing_panel.tscn" id="8_w7kh3"]
 [ext_resource type="PackedScene" uid="uid://dlybxg1p88x1" path="res://inventory/scenes/shop.tscn" id="9_7r4gi"]
-[ext_resource type="PackedScene" uid="uid://b8dw8wqvmttig" path="res://scenes/npc.tscn" id="11_e3hyu"]
+[ext_resource type="Texture2D" uid="uid://if1jcfwc0t5l" path="res://assets/Key/gdb-keyboard-2.png" id="9_e3hyu"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nnsk1"]
 
@@ -28,6 +28,99 @@ script = ExtResource("5_7r4gi")
 item_data = ExtResource("4_4mrxx")
 quantity = 1
 metadata/_custom_type_script = "uid://dag484yovhp5d"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5onr"]
+atlas = ExtResource("9_e3hyu")
+region = Rect2(32, 48, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jhx03"]
+atlas = ExtResource("9_e3hyu")
+region = Rect2(32, 160, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o8fc1"]
+atlas = ExtResource("9_e3hyu")
+region = Rect2(32, 272, 32, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xo05s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q5onr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jhx03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o8fc1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q5onr")
+}],
+"loop": false,
+"name": &"tab",
+"speed": 50.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dss4m"]
+atlas = ExtResource("9_e3hyu")
+region = Rect2(96, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7t5mc"]
+atlas = ExtResource("9_e3hyu")
+region = Rect2(96, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lakw3"]
+atlas = ExtResource("9_e3hyu")
+region = Rect2(96, 272, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pm21f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dss4m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7t5mc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lakw3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dss4m")
+}],
+"loop": false,
+"name": &"e",
+"speed": 50.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e3hyu"]
+atlas = ExtResource("9_e3hyu")
+region = Rect2(32, 80, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xo05s"]
+atlas = ExtResource("9_e3hyu")
+region = Rect2(32, 192, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pm21f"]
+atlas = ExtResource("9_e3hyu")
+region = Rect2(32, 304, 32, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2lf6f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e3hyu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xo05s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pm21f")
+}],
+"loop": false,
+"name": &"shift",
+"speed": 50.0
+}]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_e3hyu"]
 vertices = PackedVector2Array(383.227, 59.0781, 387.75, 115.039, 320.961, 116, 325.102, 92.0625, 169.047, 87.9531, 269, 59, 269, 90.9375, 167.75, 95.75, 167.742, 81.4063, 324.094, 60.8984, -47.8516, 116, 160, 97.0391, -45.1328, 59.9922, 160, 78.8438, 152.258, 81.4063, 150.953, 87.9531, 152.25, 95.75)
@@ -47,7 +140,7 @@ offset_right = 1512.0
 offset_bottom = 343.0
 
 [node name="Player" parent="." instance=ExtResource("1_nnsk1")]
-position = Vector2(136, 80)
+position = Vector2(36, 75)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 limit_left = 0
@@ -127,14 +220,62 @@ offset_bottom = 30.0
 visible = false
 layout_mode = 1
 
+[node name="GUI" type="Node" parent="CanvasLayer"]
+
+[node name="Tab_animation" type="AnimatedSprite2D" parent="CanvasLayer/GUI"]
+position = Vector2(64, 152)
+sprite_frames = SubResource("SpriteFrames_xo05s")
+animation = &"tab"
+frame = 3
+frame_progress = 1.0
+
+[node name="E_animation" type="AnimatedSprite2D" parent="CanvasLayer/GUI"]
+position = Vector2(152, 152)
+sprite_frames = SubResource("SpriteFrames_pm21f")
+animation = &"e"
+frame = 3
+frame_progress = 1.0
+
+[node name="ShiftAnimation" type="AnimatedSprite2D" parent="CanvasLayer/GUI"]
+position = Vector2(240, 152)
+sprite_frames = SubResource("SpriteFrames_2lf6f")
+animation = &"shift"
+
+[node name="Label" type="Label" parent="CanvasLayer/GUI"]
+offset_left = 80.0
+offset_top = 148.0
+offset_right = 116.0
+offset_bottom = 156.0
+scale = Vector2(1.5, 1.5)
+theme_override_colors/font_color = Color(0.0347631, 0.272509, 0.999993, 1)
+theme_override_font_sizes/font_size = 6
+text = "Inventory"
+
+[node name="Label2" type="Label" parent="CanvasLayer/GUI"]
+offset_left = 162.0
+offset_top = 148.0
+offset_right = 198.0
+offset_bottom = 156.0
+scale = Vector2(1.5, 1.5)
+theme_override_colors/font_color = Color(0.0347631, 0.272509, 0.999993, 1)
+theme_override_font_sizes/font_size = 6
+text = "Interact"
+
+[node name="Label3" type="Label" parent="CanvasLayer/GUI"]
+offset_left = 256.0
+offset_top = 148.0
+offset_right = 292.0
+offset_bottom = 156.0
+scale = Vector2(1.5, 1.5)
+theme_override_colors/font_color = Color(0.0347631, 0.272509, 0.999993, 1)
+theme_override_font_sizes/font_size = 6
+text = "Run"
+
 [node name="table" parent="." instance=ExtResource("6_qfnet")]
 position = Vector2(160, 88)
 
 [node name="Shop" parent="." instance=ExtResource("9_7r4gi")]
 position = Vector2(272, 56)
-
-[node name="Npc" parent="." instance=ExtResource("11_e3hyu")]
-position = Vector2(51, 87)
 
 [node name="Navigation" type="Node" parent="."]
 
@@ -175,7 +316,8 @@ position = Vector2(64, 96)
 [node name="EndRightMarker" type="Marker2D" parent="Markers"]
 position = Vector2(358, 89)
 
+[node name="NpcSpawnTimer" type="Timer" parent="."]
+
 [connection signal="gui_input" from="CanvasLayer/InventoryInterface" to="CanvasLayer/InventoryInterface" method="_on_gui_input"]
 [connection signal="visibility_changed" from="CanvasLayer/InventoryInterface" to="CanvasLayer/InventoryInterface" method="_on_visibility_changed"]
-
-[editable path="Npc"]
+[connection signal="timeout" from="NpcSpawnTimer" to="." method="_on_npc_spawn_timer_timeout"]

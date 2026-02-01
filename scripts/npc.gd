@@ -51,6 +51,8 @@ func _ready() -> void:
 	nav2d.navigation_finished.connect(_on_target_reached)
 	chat_box.hide()
 	texture_rect.hide()
+	animated_sprite.material.set_shader_parameter("replace_0",Color(randf(), randf(), randf()))
+	animated_sprite.material.set_shader_parameter("replace_1",Color(randf_range(0.4,0.1), randf_range(0.4,0.1), randf_range(0.5,0.4)))
 
 func assign_marker():
 	end_left = get_parent().end_left_marker.global_position
