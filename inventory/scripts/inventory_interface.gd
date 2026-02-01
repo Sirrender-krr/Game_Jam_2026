@@ -8,6 +8,7 @@ var player_inventory_data: InventoryData
 var coins:
 	set(value):
 		coins = value
+		coin_sound.play()
 		print(coins)
 @export var COIN: SlotData
 
@@ -16,6 +17,7 @@ var coins:
 @onready var grab_slot: PanelContainer = $GrabSlot
 @onready var external_inventory: PanelContainer = $ExternalInventory
 @onready var pricing_panel: Panel = $PricingPanel
+@onready var coin_sound: AudioStreamPlayer2D = $coin
 
 
 

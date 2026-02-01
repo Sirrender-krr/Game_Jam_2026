@@ -20,6 +20,9 @@ signal inv_show(inv_visible: bool)
 @onready var label: Label = $Player/Label
 @onready var mouse_animation_left: AnimatedSprite2D = $CanvasLayer/GUI/MouseAnimationLeft
 @onready var mouse_animation_right: AnimatedSprite2D = $CanvasLayer/GUI/MouseAnimationRight
+@onready var resume_button: Button = $CanvasLayer/GUI/resume_button
+@onready var resume_animation: AnimatedSprite2D = $CanvasLayer/GUI/resume_button/resume_animation
+@onready var resume_label: Label = $CanvasLayer/GUI/resume_button/resume_Label
 
 
 const NPC = preload("res://scenes/npc/npc.tscn")
@@ -79,6 +82,7 @@ func _input(event: InputEvent) -> void:
 		mouse_animation_right.play()
 	elif Input.is_action_just_released("right_click"):
 		mouse_animation_right.play_backwards()
+
 
 func connect_external_inventory_signal() -> void:
 	for node in get_tree().get_nodes_in_group("external_inventory"):

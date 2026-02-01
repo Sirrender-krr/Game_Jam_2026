@@ -10,6 +10,10 @@ signal toggle_inventory
 
 
 const MASK_02 = preload("res://inventory/resources/item/mask02.tres")
+const MASK_01 = preload("res://inventory/resources/item/mask01.tres")
+const MASK_03 = preload("res://inventory/resources/item/mask03.tres")
+const MASK_05 = preload("res://inventory/resources/item/mask05.tres")
+const MASK = preload("res://inventory/resources/item/mask.tres")
 var slot = SlotData.new()
 
 var table_inv:InventoryData
@@ -46,7 +50,9 @@ var current_target_index: int = 0:
 		current_target_index = clamp(value,0,2)
 
 func _ready() -> void:
-	slot.item_data = MASK_02
+	var mask = [MASK,MASK_01,MASK_02,MASK_03,MASK_05]
+	#var ran_mask = randi_range(0,4)
+	slot.item_data = mask[random_mask()]
 	print("name: %s\nbuy: %s\nqty: %s" %[slot.item_data.name,slot.item_data.sell,slot.quantity])
 	call_deferred("assign_marker")
 	nav2d.navigation_finished.connect(_on_target_reached)
@@ -57,6 +63,22 @@ func _ready() -> void:
 	animated_sprite.material.set_shader_parameter("replace_0",main_color)
 	animated_sprite.material.set_shader_parameter("replace_1",outline)
 	chat_box.add_theme_color_override("font_color",main_color)
+
+func random_mask() -> int:
+	randomize()
+	var ran = randf()
+	var return_val
+	if ran >= 0.9:
+		return_val = 4
+	elif ran >= 0.8:
+		return_val =3
+	elif ran >= 0.7:
+		return_val =2
+	elif ran >= 0.6:
+		return_val =1
+	elif ran < 0.6:
+		return_val =0
+	return return_val
 
 func assign_marker():
 	end_left = get_parent().end_left_marker.global_position
@@ -195,7 +217,7 @@ func random_acceptable_price(price) -> bool:
 	randomize()
 	var x = randi_range(0,3)
 	var threshold = [1.0,1.33,1.66,2.0]
-	var randomed_price = int(ceil(slot.item_data.suggest_selling * threshold[x]))
+	var randomed_price = int(ceil(slot.item_data.suggest_selling * threshold[x]/10.0)*10.0)
 	print("I expect: ",randomed_price)
 	return randomed_price >= price
 
