@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://dbu2s0t1266h5"]
+[gd_scene load_steps=33 format=3 uid="uid://dbu2s0t1266h5"]
 
 [ext_resource type="Script" uid="uid://30ddpxufjhvm" path="res://scripts/world.gd" id="1_71j4m"]
 [ext_resource type="PackedScene" uid="uid://b8tb5a0e70mwc" path="res://scenes/player.tscn" id="1_nnsk1"]
@@ -28,6 +28,28 @@ script = ExtResource("5_7r4gi")
 item_data = ExtResource("4_4mrxx")
 quantity = 1
 metadata/_custom_type_script = "uid://dag484yovhp5d"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2lf6f"]
+atlas = ExtResource("9_e3hyu")
+region = Rect2(496, 0, 31, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7iits"]
+atlas = ExtResource("9_e3hyu")
+region = Rect2(527, 0, 31, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oo54l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2lf6f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7iits")
+}],
+"loop": false,
+"name": &"default",
+"speed": 50.0
+}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q5onr"]
 atlas = ExtResource("9_e3hyu")
@@ -133,11 +155,12 @@ y_sort_enabled = true
 script = ExtResource("1_71j4m")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
+z_index = -11
 offset_left = -165.0
 offset_top = -174.0
 offset_right = 1512.0
 offset_bottom = 343.0
+color = Color(0.631373, 0.631373, 0.631373, 1)
 
 [node name="Player" parent="." instance=ExtResource("1_nnsk1")]
 position = Vector2(36, 75)
@@ -148,6 +171,15 @@ limit_top = 0
 limit_right = 320
 limit_bottom = 22
 
+[node name="Label" type="Label" parent="Player"]
+offset_left = -20.0
+offset_top = -41.0
+offset_right = 20.0
+offset_bottom = -26.0
+theme_override_colors/font_color = Color(0.29484, 0.523929, 0.702228, 1)
+theme_override_font_sizes/font_size = 6
+autowrap_mode = 2
+
 [node name="Walls" type="StaticBody2D" parent="."]
 y_sort_enabled = true
 position = Vector2(1, -1)
@@ -155,6 +187,7 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="Line2D2" type="Line2D" parent="Walls"]
+z_index = -1
 position = Vector2(176, -160)
 scale = Vector2(1, 0.5)
 points = PackedVector2Array(-354, 436, 1416, 436)
@@ -222,40 +255,72 @@ layout_mode = 1
 
 [node name="GUI" type="Node" parent="CanvasLayer"]
 
+[node name="MouseAnimationLeft" type="AnimatedSprite2D" parent="CanvasLayer/GUI"]
+position = Vector2(103.5, 160)
+sprite_frames = SubResource("SpriteFrames_oo54l")
+frame = 1
+frame_progress = 1.0
+
+[node name="MouseAnimationRight" type="AnimatedSprite2D" parent="CanvasLayer/GUI"]
+position = Vector2(191.5, 160)
+sprite_frames = SubResource("SpriteFrames_oo54l")
+frame = 1
+frame_progress = 1.0
+
 [node name="Tab_animation" type="AnimatedSprite2D" parent="CanvasLayer/GUI"]
-position = Vector2(64, 152)
+position = Vector2(64, 136)
 sprite_frames = SubResource("SpriteFrames_xo05s")
 animation = &"tab"
 frame = 3
 frame_progress = 1.0
 
 [node name="E_animation" type="AnimatedSprite2D" parent="CanvasLayer/GUI"]
-position = Vector2(152, 152)
+position = Vector2(152, 136)
 sprite_frames = SubResource("SpriteFrames_pm21f")
 animation = &"e"
 frame = 3
 frame_progress = 1.0
 
 [node name="ShiftAnimation" type="AnimatedSprite2D" parent="CanvasLayer/GUI"]
-position = Vector2(240, 152)
+position = Vector2(240, 136)
 sprite_frames = SubResource("SpriteFrames_2lf6f")
 animation = &"shift"
 
 [node name="Label" type="Label" parent="CanvasLayer/GUI"]
 offset_left = 80.0
-offset_top = 148.0
+offset_top = 132.0
 offset_right = 116.0
-offset_bottom = 156.0
+offset_bottom = 140.0
 scale = Vector2(1.5, 1.5)
 theme_override_colors/font_color = Color(0.0347631, 0.272509, 0.999993, 1)
 theme_override_font_sizes/font_size = 6
 text = "Inventory"
 
+[node name="Label4" type="Label" parent="CanvasLayer/GUI"]
+offset_left = 119.5
+offset_top = 152.0
+offset_right = 131.5
+offset_bottom = 160.0
+scale = Vector2(1.5, 1.5)
+theme_override_colors/font_color = Color(0.0347631, 0.272509, 0.999993, 1)
+theme_override_font_sizes/font_size = 6
+text = "All"
+
+[node name="Label5" type="Label" parent="CanvasLayer/GUI"]
+offset_left = 207.5
+offset_top = 152.0
+offset_right = 219.5
+offset_bottom = 160.0
+scale = Vector2(1.5, 1.5)
+theme_override_colors/font_color = Color(0.0347631, 0.272509, 0.999993, 1)
+theme_override_font_sizes/font_size = 6
+text = "One"
+
 [node name="Label2" type="Label" parent="CanvasLayer/GUI"]
 offset_left = 162.0
-offset_top = 148.0
+offset_top = 132.0
 offset_right = 198.0
-offset_bottom = 156.0
+offset_bottom = 140.0
 scale = Vector2(1.5, 1.5)
 theme_override_colors/font_color = Color(0.0347631, 0.272509, 0.999993, 1)
 theme_override_font_sizes/font_size = 6
@@ -263,9 +328,9 @@ text = "Interact"
 
 [node name="Label3" type="Label" parent="CanvasLayer/GUI"]
 offset_left = 256.0
-offset_top = 148.0
+offset_top = 132.0
 offset_right = 292.0
-offset_bottom = 156.0
+offset_bottom = 140.0
 scale = Vector2(1.5, 1.5)
 theme_override_colors/font_color = Color(0.0347631, 0.272509, 0.999993, 1)
 theme_override_font_sizes/font_size = 6

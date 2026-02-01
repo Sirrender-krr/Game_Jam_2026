@@ -39,7 +39,8 @@ var leave_dir: Vector2
 var first_target:Array
 var last_target:Array
 var all_target: Array
-
+var main_color
+var outline
 var current_target_index: int = 0:
 	set(value):
 		current_target_index = clamp(value,0,2)
@@ -51,8 +52,11 @@ func _ready() -> void:
 	nav2d.navigation_finished.connect(_on_target_reached)
 	chat_box.hide()
 	texture_rect.hide()
-	animated_sprite.material.set_shader_parameter("replace_0",Color(randf(), randf(), randf()))
-	animated_sprite.material.set_shader_parameter("replace_1",Color(randf_range(0.4,0.1), randf_range(0.4,0.1), randf_range(0.5,0.4)))
+	main_color = Color(randf(), randf(), randf())
+	outline = Color(randf_range(0.4,0.1), randf_range(0.4,0.1), randf_range(0.5,0.4))
+	animated_sprite.material.set_shader_parameter("replace_0",main_color)
+	animated_sprite.material.set_shader_parameter("replace_1",outline)
+	chat_box.add_theme_color_override("font_color",main_color)
 
 func assign_marker():
 	end_left = get_parent().end_left_marker.global_position
@@ -147,19 +151,41 @@ func buy() -> void:
 		for i in range(slot_data.size()):
 			if slot_data[i] and slot_data[i].item_data.name == slot.item_data.name:
 				if !random_acceptable_price(slot_data[i].item_data.sell):
+					var ran_exp = randi_range(0,3)
+					var text_exp = [
+						"Unbelievable! are you selling only to rich guys?",
+						"What a price, this is tooooooo expensive.",
+						"Whoa, I don't have enough money for this.",
+						"It takes courage to set a price like this."
+					]
 					chat_box.show()
-					chat_box.text = "What a price, this is tooooooo expensive"
+					chat_box.text = text_exp[ran_exp]
 					return
 				elif random_acceptable_price(slot_data[i].item_data.sell):
 					inventory_interface.gain_money_npc(slot_data[i],slot_data[i].quantity)
 					table_inv.grab_slot_data_npc(i)
+					var ran_che = randi_range(0,3)
+					var text_che = [
+						"Wow, this is too good to be true.",
+						"You are better that the last store I visited.",
+						"Good Price. I can buy them all!",
+						"Good day to you sir, you just make my day."
+					]
 					chat_box.show()
-					chat_box.text = "Good Price. I can buy them all!"
+					var rand
+					chat_box.text = text_che[ran_che]
 					return
 
 			#else:
+		var ran_non = randi_range(0,3)
+		var text_non = [
+			"Too bad, you did't sell it.",
+			"Maybe next store will have it.",
+			"Everyone is selling, why isn't you",
+			"What a waste of time"
+		]
 		chat_box.show()
-		chat_box.text = "Too bad, you did't sell it."
+		chat_box.text = text_non[ran_non]
 				#print('not found')
 				#pass
 	else:
@@ -168,9 +194,10 @@ func buy() -> void:
 func random_acceptable_price(price) -> bool:
 	randomize()
 	var x = randi_range(0,3)
-	var threshold = [1.0,1.1,1.2,1.3]
-	print("I expect: ",slot.item_data.suggest_selling * threshold[x])
-	return slot.item_data.suggest_selling * threshold[x] >= price
+	var threshold = [1.0,1.33,1.66,2.0]
+	var randomed_price = int(ceil(slot.item_data.suggest_selling * threshold[x]))
+	print("I expect: ",randomed_price)
+	return randomed_price >= price
 
 #region movement and animation
 func handle_movement() -> void:

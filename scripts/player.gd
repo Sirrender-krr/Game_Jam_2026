@@ -5,6 +5,7 @@ signal toggle_inventory
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
+
 @export var inventory_data: InventoryData
 var interacting
 
@@ -21,7 +22,6 @@ var state = State.idle
 func get_input():#easy get input, must bind key with get_vector() accordingly
 	var input_direction = Input.get_vector('left','right','up','down')
 	velocity = input_direction * accel
-
 
 func _physics_process(_delta):
 	get_input()

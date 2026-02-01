@@ -46,12 +46,12 @@ func adjust_price() -> void:
 
 
 func _on_less_button_button_down() -> void:
-	selling_price -= 100
+	selling_price -= 50
 	adjust_price()
 
 
 func _on_more_button_pressed() -> void:
-	selling_price += 100
+	selling_price += 50
 	adjust_price()
 
 

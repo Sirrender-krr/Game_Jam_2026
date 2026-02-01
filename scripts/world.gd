@@ -17,6 +17,9 @@ signal inv_show(inv_visible: bool)
 @onready var tab_animation: AnimatedSprite2D = $CanvasLayer/GUI/Tab_animation
 @onready var e_animation: AnimatedSprite2D = $CanvasLayer/GUI/E_animation
 @onready var shift_animation: AnimatedSprite2D = $CanvasLayer/GUI/ShiftAnimation
+@onready var label: Label = $Player/Label
+@onready var mouse_animation_left: AnimatedSprite2D = $CanvasLayer/GUI/MouseAnimationLeft
+@onready var mouse_animation_right: AnimatedSprite2D = $CanvasLayer/GUI/MouseAnimationRight
 
 
 const NPC = preload("res://scenes/npc/npc.tscn")
@@ -29,16 +32,22 @@ const NPC = preload("res://scenes/npc/npc.tscn")
 func _ready() -> void:
 	player.toggle_inventory.connect(toggle_inventory_interface)
 	inventory_interface.set_player_inventory_data(player.inventory_data)
-	#inventory_interface.drop_slot_data.connect(_on_inventory_interface_drop_slot_data)
-	#hot_bar_inventory.set_inventory_data(player.inventory_data)
 	connect_external_inventory_signal()
 	color_rect.show()
-	await get_tree(). create_timer(10).timeout
-	spawn_npc()
+	label.hide()
 	tab_animation.frame = 0
 	e_animation.frame = 0
 	shift_animation.frame = 0
-	
+	mouse_animation_left.frame = 0
+	mouse_animation_right.frame =0
+	await get_tree().create_timer(2).timeout
+	label.show()
+	label.text = "I have to buy some masks"
+	await get_tree().create_timer(2).timeout
+	label.hide()
+	await get_tree(). create_timer(10).timeout
+	spawn_npc()
+
 
 func spawn_npc() -> void:
 	var npc = NPC.instantiate()
@@ -59,6 +68,17 @@ func _input(event: InputEvent) -> void:
 		shift_animation.play()
 	elif Input.is_action_just_released("run"):
 		shift_animation.play_backwards()
+	if Input.is_action_just_pressed("click"):
+		mouse_animation_left.flip_h = true
+		mouse_animation_left.play()
+	elif Input.is_action_just_released("click"):
+		mouse_animation_left.flip_h = true
+		mouse_animation_left.play_backwards()
+	if Input.is_action_just_pressed("right_click"):
+		print('click')
+		mouse_animation_right.play()
+	elif Input.is_action_just_released("right_click"):
+		mouse_animation_right.play_backwards()
 
 func connect_external_inventory_signal() -> void:
 	for node in get_tree().get_nodes_in_group("external_inventory"):

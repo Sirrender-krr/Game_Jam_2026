@@ -81,6 +81,8 @@ func drop_single_slot_data_shop(grabbed_slot_data: SlotData, index: int) -> Slot
 		slot_datas[index] = grabbed_slot_data.create_single_slot_data_shop()
 	#elif slot_data.can_merge_with(grabbed_slot_data):
 		#slot_data.fully_merge_with(grabbed_slot_data.create_single_slot_data_shop())
+	elif slot_datas:
+		grabbed_slot_data.create_single_slot_data_shop()
 	
 	inventory_updated.emit(self,'shop')
 	
