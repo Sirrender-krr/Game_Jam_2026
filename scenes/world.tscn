@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://dbu2s0t1266h5"]
+[gd_scene load_steps=36 format=3 uid="uid://dbu2s0t1266h5"]
 
 [ext_resource type="Script" uid="uid://30ddpxufjhvm" path="res://scripts/world.gd" id="1_71j4m"]
 [ext_resource type="PackedScene" uid="uid://b8tb5a0e70mwc" path="res://scenes/player.tscn" id="1_nnsk1"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dlybxg1p88x1" path="res://inventory/scenes/shop.tscn" id="9_7r4gi"]
 [ext_resource type="Texture2D" uid="uid://if1jcfwc0t5l" path="res://assets/Key/gdb-keyboard-2.png" id="9_e3hyu"]
 [ext_resource type="AudioStream" uid="uid://cr48iy7uvaeea" path="res://assets/sound/coin.wav" id="9_q5onr"]
+[ext_resource type="PackedScene" uid="uid://v6vkb7hwh020" path="res://scenes/pause_menu.tscn" id="11_o8fc1"]
 [ext_resource type="PackedScene" uid="uid://c5qqlgw7afg2t" path="res://scenes/BG_music.tscn" id="13_jhx03"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nnsk1"]
@@ -155,6 +156,7 @@ agent_radius = 3.0
 [node name="World" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_71j4m")
+npc_spawn_chance = 50
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -11
@@ -341,6 +343,9 @@ scale = Vector2(1.5, 1.5)
 theme_override_colors/font_color = Color(0.0347631, 0.272509, 0.999993, 1)
 theme_override_font_sizes/font_size = 6
 text = "Run"
+
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("11_o8fc1")]
+visible = false
 
 [node name="table" parent="." instance=ExtResource("6_qfnet")]
 position = Vector2(160, 88)

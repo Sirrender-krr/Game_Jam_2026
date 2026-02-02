@@ -24,7 +24,6 @@ func player_interact() -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player:
 		var player = body
-		toggle_inventory.emit(self)
 		player.interacting = self
 	if body is NPC:
 		var npc = body

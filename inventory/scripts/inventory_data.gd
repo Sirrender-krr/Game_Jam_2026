@@ -27,13 +27,17 @@ func grab_slot_data_shop(index: int) -> SlotData:
 	else:
 		return null
 
-func grab_slot_data_npc(index: int) -> void:
+func grab_slot_data_npc(index: int, qty: int) -> SlotData:
 	
 	var slot_data = slot_datas[index]
 	
 	if slot_data:
-		slot_datas[index] = null
+		#slot_datas[index] = null #take all
+		slot_datas[index].quantity -= qty
 		inventory_updated.emit(self)
+		if slot_datas[index].quantity <= 0:
+			slot_datas[index] = null
+			inventory_updated.emit(self)
 		return
 	else:
 		return
@@ -45,6 +49,7 @@ func drop_slot_data(grabbed_slot_data: SlotData, index: int) -> SlotData:
 	if slot_data and slot_data.can_fully_merge_with(grabbed_slot_data):
 		slot_data.fully_merge_with(grabbed_slot_data)
 	else:
+		print('swap')
 		slot_datas[index] = grabbed_slot_data
 		return_slot_data = slot_data
 	
@@ -65,7 +70,11 @@ func drop_single_slot_data(grabbed_slot_data: SlotData, index: int) -> SlotData:
 		slot_datas[index] = grabbed_slot_data.create_single_slot_data()
 	elif slot_data.can_merge_with(grabbed_slot_data):
 		slot_data.fully_merge_with(grabbed_slot_data.create_single_slot_data())
-	
+	else:
+		var middle_man = slot_datas[index]
+		slot_datas[index] = grabbed_slot_data
+		grabbed_slot_data = middle_man
+
 	inventory_updated.emit(self)
 	
 	if grabbed_slot_data.quantity >0:

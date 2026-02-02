@@ -1,7 +1,8 @@
 extends Node2D
 
 
-@export var ground_tilemap_layer: TileMapLayer
+#@export var ground_tilemap_layer: TileMapLayer
+@export_range(10, 100, 10, "suffix:%") var npc_spawn_chance: int = 10
 
 signal inv_show(inv_visible: bool)
 @onready var left_marker_1: Marker2D = $Markers/LeftMarker1
@@ -203,4 +204,10 @@ func toggle_inventory_interface(external_inventory_owner = null) -> void:
 
 
 func _on_npc_spawn_timer_timeout() -> void:
-	spawn_npc()
+	var chance = randi_range(1,100)
+	if chance <= npc_spawn_chance:
+		print("npc in")
+		spawn_npc()
+	else:
+		print('npc not spawn')
+		npc_spawn_timer.start()

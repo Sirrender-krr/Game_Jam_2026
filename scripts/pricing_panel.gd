@@ -38,9 +38,7 @@ func open_price_panel(grabbed_slot_data: SlotData, Index: int, _inventory_data: 
 
 
 func adjust_price() -> void:
-	
 	slot.item_data.sell = selling_price
-	
 	inventory_data.inventory_updated.emit(inventory_data)
 
 

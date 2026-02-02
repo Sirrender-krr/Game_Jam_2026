@@ -7,6 +7,7 @@ signal toggle_inventory
 @onready var nav2d: NavigationAgent2D = $NavigationAgent2D
 @onready var chat_box: Label = $ChatBox
 @onready var texture_rect: TextureRect = $TextureRect
+@onready var qty_label: Label = $QtyLabel
 
 
 const MASK_02 = preload("res://inventory/resources/item/mask02.tres")
@@ -52,33 +53,48 @@ var current_target_index: int = 0:
 func _ready() -> void:
 	var mask = [MASK,MASK_01,MASK_02,MASK_03,MASK_05]
 	#var ran_mask = randi_range(0,4)
-	slot.item_data = mask[random_mask()]
+	var chosen_item_qty = random_item_and_qty()
+	slot.item_data = mask[chosen_item_qty[0]]
+	slot.quantity = chosen_item_qty[1]
 	print("name: %s\nbuy: %s\nqty: %s" %[slot.item_data.name,slot.item_data.sell,slot.quantity])
 	call_deferred("assign_marker")
 	nav2d.navigation_finished.connect(_on_target_reached)
 	chat_box.hide()
 	texture_rect.hide()
+	qty_label.hide()
 	main_color = Color(randf(), randf(), randf())
 	outline = Color(randf_range(0.4,0.1), randf_range(0.4,0.1), randf_range(0.5,0.4))
 	animated_sprite.material.set_shader_parameter("replace_0",main_color)
 	animated_sprite.material.set_shader_parameter("replace_1",outline)
 	chat_box.add_theme_color_override("font_color",main_color)
 
-func random_mask() -> int:
+func random_item_and_qty() -> Array:
 	randomize()
 	var ran = randf()
-	var return_val
+	var return_item
 	if ran >= 0.9:
-		return_val = 4
+		return_item = 4
 	elif ran >= 0.8:
-		return_val =3
+		return_item =3
 	elif ran >= 0.7:
-		return_val =2
+		return_item =2
 	elif ran >= 0.6:
-		return_val =1
+		return_item =1
 	elif ran < 0.6:
-		return_val =0
-	return return_val
+		return_item =0
+	var return_qty
+	match return_item:
+		0:
+			return_qty = randi_range(1,10)
+		1:
+			return_qty = randi_range(1,10)
+		2:
+			return_qty = randi_range(1,8)
+		3:
+			return_qty = randi_range(1,6)
+		4:
+			return_qty = randi_range(1,4)
+	return [return_item,return_qty]
 
 func assign_marker():
 	end_left = get_parent().end_left_marker.global_position
@@ -145,28 +161,27 @@ func navigate(delta:float) -> void:
 func _on_target_reached() -> void:
 	velocity = Vector2.ZERO
 	if current_target_index >= 2:
-		print("done")
 		queue_free()
 	
 	if current_target_index == 0:
 		texture_rect.texture = slot.item_data.texture
+		qty_label.text = str(slot.quantity)
 		texture_rect.show()
+		qty_label.show()
 	
 	if current_target_index == 1:
-		await get_tree().create_timer(1).timeout
+		await get_tree().create_timer(3).timeout
 		buy()
 	await get_tree().create_timer(2).timeout
 	chat_box.hide()
 	texture_rect.hide()
+	qty_label.hide()
 	
 	current_target_index += 1
 	
 	if current_target_index < all_target.size():
 		_set_next_target()
 	
-
-		
-
 func buy() -> void:
 	if table_inv:
 		var slot_data = table_inv.slot_datas
@@ -183,21 +198,31 @@ func buy() -> void:
 					chat_box.show()
 					chat_box.text = text_exp[ran_exp]
 					return
+				## Actually buying
 				elif random_acceptable_price(slot_data[i].item_data.sell):
-					inventory_interface.gain_money_npc(slot_data[i],slot_data[i].quantity)
-					table_inv.grab_slot_data_npc(i)
-					var ran_che = randi_range(0,3)
-					var text_che = [
-						"Wow, this is too good to be true.",
-						"You are better that the last store I visited.",
-						"Good Price. I can buy them all!",
-						"Good day to you sir, you just make my day."
-					]
-					chat_box.show()
-					var rand
-					chat_box.text = text_che[ran_che]
-					return
-
+					if slot_data[i].quantity >= slot.quantity:
+						inventory_interface.gain_money_npc(slot_data[i],slot.quantity)
+						table_inv.grab_slot_data_npc(i,slot.quantity)
+						var ran_che = randi_range(0,3)
+						var text_che = [
+							"Wow, this is too good to be true.",
+							"You are better that the last store I visited.",
+							"Good Price. I can buy them all!",
+							"Good day to you sir, you just make my day."
+						]
+						chat_box.show()
+						chat_box.text = text_che[ran_che]
+						return
+					else:
+						var ran_pity = randi_range(0,3)
+						var text_pity =[
+							"What a pity, you don't have enough for me.",
+							"Too few of your goods.",
+							"I am willing to pay, but you just don't stock.",
+							"Nahh man, I wanna get more than this."
+						]
+						chat_box.show()
+						chat_box.text = text_pity[ran_pity]
 			#else:
 		var ran_non = randi_range(0,3)
 		var text_non = [

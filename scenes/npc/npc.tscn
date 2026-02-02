@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://b8dw8wqvmttig"]
+[gd_scene load_steps=23 format=3 uid="uid://b8dw8wqvmttig"]
 
 [ext_resource type="Script" uid="uid://cp3b04hli7o32" path="res://scripts/npc.gd" id="1_abqhh"]
 [ext_resource type="Shader" uid="uid://d0xybyos71ai2" path="res://scenes/npc/npc.gdshader" id="2_dpyoa"]
@@ -170,8 +170,6 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_i4ail"]
 radius = 3.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_abqhh"]
-
 [node name="Npc" type="CharacterBody2D"]
 y_sort_enabled = true
 collision_layer = 8
@@ -194,6 +192,7 @@ shape = SubResource("CircleShape2D_i4ail")
 avoidance_enabled = true
 
 [node name="ChatBox" type="Label" parent="."]
+visible = false
 z_index = 5
 offset_left = -24.0
 offset_top = -48.0
@@ -210,4 +209,12 @@ offset_left = -8.0
 offset_top = -40.0
 offset_right = 8.0
 offset_bottom = -24.0
-texture = SubResource("AtlasTexture_abqhh")
+
+[node name="QtyLabel" type="Label" parent="."]
+z_index = 4
+offset_top = -24.0
+offset_right = 8.0
+offset_bottom = -18.0
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 6
+horizontal_alignment = 2
