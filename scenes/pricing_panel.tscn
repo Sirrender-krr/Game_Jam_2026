@@ -56,14 +56,6 @@ offset_bottom = 28.0
 theme_override_font_sizes/font_size = 6
 text = "Selling price:"
 
-[node name="SellingPriceLabel" type="Label" parent="."]
-layout_mode = 2
-offset_left = 88.0
-offset_top = 20.0
-offset_right = 104.0
-offset_bottom = 28.0
-theme_override_font_sizes/font_size = 6
-
 [node name="LessButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = 40.0
@@ -91,6 +83,16 @@ offset_bottom = 58.0
 theme_override_font_sizes/font_size = 6
 text = "Confirm"
 
+[node name="SellingPriceInput" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 86.0
+offset_top = 18.0
+offset_right = 110.0
+offset_bottom = 28.0
+theme_override_font_sizes/font_size = 6
+
 [connection signal="button_down" from="LessButton" to="." method="_on_less_button_button_down"]
 [connection signal="pressed" from="MoreButton" to="." method="_on_more_button_pressed"]
 [connection signal="pressed" from="ConfirmButton" to="." method="_on_confirm_button_pressed"]
+[connection signal="text_changed" from="SellingPriceInput" to="." method="_on_selling_price_input_text_changed"]
+[connection signal="text_submitted" from="SellingPriceInput" to="." method="_on_selling_price_input_text_submitted"]

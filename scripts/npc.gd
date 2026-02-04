@@ -188,6 +188,19 @@ func buy() -> void:
 		for i in range(slot_data.size()):
 			if slot_data[i] and slot_data[i].item_data.name == slot.item_data.name:
 				if !random_acceptable_price(slot_data[i].item_data.sell):
+					if randf() <= 0.1 and slot_data[i].quantity >= slot.quantity:
+						inventory_interface.gain_money_npc(slot_data[i],slot.quantity)
+						table_inv.grab_slot_data_npc(i,slot.quantity)
+						var ran_buy_anyway = randi_range(0,3)
+						var text_buy_anyway = [
+							"I think it is what it is.",
+							"You are lucky that I'm desperate!.",
+							"Just take my money already!",
+							"This is discrimination!."
+						]
+						chat_box.show()
+						chat_box.text = text_buy_anyway[ran_buy_anyway]
+						return
 					var ran_exp = randi_range(0,3)
 					var text_exp = [
 						"Unbelievable! are you selling only to rich guys?",
@@ -213,7 +226,7 @@ func buy() -> void:
 						chat_box.show()
 						chat_box.text = text_che[ran_che]
 						return
-					else:
+					elif slot_data[i].quantity < slot.quantity:
 						var ran_pity = randi_range(0,3)
 						var text_pity =[
 							"What a pity, you don't have enough for me.",
