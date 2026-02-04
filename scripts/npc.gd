@@ -172,7 +172,7 @@ func _on_target_reached() -> void:
 	if current_target_index == 1:
 		await get_tree().create_timer(3).timeout
 		buy()
-	await get_tree().create_timer(2).timeout
+	await get_tree().create_timer(3).timeout
 	chat_box.hide()
 	texture_rect.hide()
 	qty_label.hide()
