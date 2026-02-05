@@ -96,6 +96,8 @@ func random_item_and_qty() -> Array:
 			return_qty = randi_range(1,4)
 	return [return_item,return_qty]
 
+
+## assigning a precise posision for npc to go
 func assign_marker():
 	end_left = get_parent().end_left_marker.global_position
 	end_right = get_parent().end_right_marker.global_position
@@ -149,7 +151,7 @@ func _physics_process(delta):
 #func manual_navigation() -> void:
 	#if Input.is_action_just_pressed("click"):
 		#nav2d.target_position = get_global_mouse_position()
-
+#region navigation
 func navigate(delta:float) -> void:
 	if nav2d.is_navigation_finished():
 		velocity = Vector2.ZERO
@@ -181,7 +183,8 @@ func _on_target_reached() -> void:
 	
 	if current_target_index < all_target.size():
 		_set_next_target()
-	
+#endregion
+
 func buy() -> void:
 	if table_inv:
 		var slot_data = table_inv.slot_datas
@@ -227,15 +230,22 @@ func buy() -> void:
 						chat_box.text = text_che[ran_che]
 						return
 					elif slot_data[i].quantity < slot.quantity:
+						inventory_interface.gain_money_npc(slot_data[i],slot_data[i].quantity)
+						table_inv.grab_slot_data_npc(i,slot_data[i].quantity)
 						var ran_pity = randi_range(0,3)
 						var text_pity =[
-							"What a pity, you don't have enough for me.",
-							"Too few of your goods.",
-							"I am willing to pay, but you just don't stock.",
-							"Nahh man, I wanna get more than this."
+							"Never mind, I will buy them all.",
+							"Too few for me, I want some more.",
+							"Consider restock next time, ok?",
+							"A little bit too short, but I will have them all."
+							#"What a pity, you don't have enough for me.",
+							#"Too few of your goods.",
+							#"I am willing to pay, but you just don't stock.",
+							#"Nahh man, I wanna get more than this."
 						]
 						chat_box.show()
 						chat_box.text = text_pity[ran_pity]
+						return
 			#else:
 		var ran_non = randi_range(0,3)
 		var text_non = [
@@ -246,8 +256,8 @@ func buy() -> void:
 		]
 		chat_box.show()
 		chat_box.text = text_non[ran_non]
-				#print('not found')
-				#pass
+						#print('not found')
+						#pass
 	else:
 		return
 

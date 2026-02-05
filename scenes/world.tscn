@@ -354,12 +354,10 @@ position = Vector2(272, 56)
 [node name="Navigation" type="Node" parent="."]
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Navigation"]
-visible = false
 navigation_polygon = SubResource("NavigationPolygon_e3hyu")
 
 [node name="Polygon2D" type="Polygon2D" parent="Navigation/NavigationRegion2D"]
-modulate = Color(1, 1, 1, 0)
-self_modulate = Color(1, 1, 1, 0)
+visible = false
 position = Vector2(23.7143, 21.9999)
 scale = Vector2(0.857145, 0.750001)
 polygon = PackedVector2Array(153, 82.2858, 159, 80, 165, 82.2858, 166, 88.0001, 165, 94.8572, 159, 96.0001, 153, 94.8572, 152, 88.0001)
