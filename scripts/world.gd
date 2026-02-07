@@ -24,6 +24,8 @@ signal inv_show(inv_visible: bool)
 @onready var resume_button: Button = $CanvasLayer/GUI/resume_button
 @onready var resume_animation: AnimatedSprite2D = $CanvasLayer/GUI/resume_button/resume_animation
 @onready var resume_label: Label = $CanvasLayer/GUI/resume_button/resume_Label
+@onready var clock: Label = $clock
+@onready var day_night_cycle: CanvasModulate = $DayNightCycle
 
 
 const NPC = preload("res://scenes/npc/npc.tscn")
@@ -44,6 +46,9 @@ func _ready() -> void:
 	shift_animation.frame = 0
 	mouse_animation_left.frame = 0
 	mouse_animation_right.frame =0
+	day_night_cycle.time_tick.connect(_on_time_tick)
+	
+	#after this will be slow
 	await get_tree().create_timer(2).timeout
 	label.show()
 	label.text = "I have to buy some masks"
@@ -52,6 +57,8 @@ func _ready() -> void:
 	await get_tree(). create_timer(10).timeout
 	spawn_npc()
 
+func _on_time_tick(day:int,hour:int,minute:int) -> void:
+	clock.text = str("Day: %d\nTime: %02d:%02d") %[day,hour,minute]
 
 func spawn_npc() -> void:
 	var npc = NPC.instantiate()

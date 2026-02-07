@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://dbu2s0t1266h5"]
+[gd_scene load_steps=38 format=3 uid="uid://dbu2s0t1266h5"]
 
 [ext_resource type="Script" uid="uid://30ddpxufjhvm" path="res://scripts/world.gd" id="1_71j4m"]
 [ext_resource type="PackedScene" uid="uid://b8tb5a0e70mwc" path="res://scenes/player.tscn" id="1_nnsk1"]
@@ -14,6 +14,8 @@
 [ext_resource type="AudioStream" uid="uid://cr48iy7uvaeea" path="res://assets/sound/coin.wav" id="9_q5onr"]
 [ext_resource type="PackedScene" uid="uid://v6vkb7hwh020" path="res://scenes/pause_menu.tscn" id="11_o8fc1"]
 [ext_resource type="PackedScene" uid="uid://c5qqlgw7afg2t" path="res://scenes/BG_music.tscn" id="13_jhx03"]
+[ext_resource type="Script" uid="uid://c46j38nbb4kl7" path="res://scripts/day_night_cycle.gd" id="15_dss4m"]
+[ext_resource type="Texture2D" uid="uid://cvcclidl6nj7p" path="res://assets/daynightcycle-gradient-texture.tres" id="16_7t5mc"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nnsk1"]
 
@@ -391,6 +393,17 @@ position = Vector2(358, 89)
 [node name="AudioStreamPlayer2D" parent="." instance=ExtResource("13_jhx03")]
 
 [node name="NpcSpawnTimer" type="Timer" parent="."]
+
+[node name="DayNightCycle" type="CanvasModulate" parent="."]
+script = ExtResource("15_dss4m")
+gradient = ExtResource("16_7t5mc")
+
+[node name="clock" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 9.0
+theme_override_font_sizes/font_size = 6
+text = "day: 1
+time: 99:99"
 
 [connection signal="gui_input" from="CanvasLayer/InventoryInterface" to="CanvasLayer/InventoryInterface" method="_on_gui_input"]
 [connection signal="visibility_changed" from="CanvasLayer/InventoryInterface" to="CanvasLayer/InventoryInterface" method="_on_visibility_changed"]
