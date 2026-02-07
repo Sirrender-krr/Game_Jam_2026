@@ -26,10 +26,14 @@ signal inv_show(inv_visible: bool)
 @onready var resume_label: Label = $CanvasLayer/GUI/resume_button/resume_Label
 @onready var clock: Label = $clock
 @onready var day_night_cycle: CanvasModulate = $DayNightCycle
+@onready var end_day_anim: AnimatedSprite2D = $CanvasLayer/GUI/EndDay/EndDayAnim
+@onready var table: table = $table
 
 
 const NPC = preload("res://scenes/npc/npc.tscn")
 
+var current_day:int=0
+var hour: int
 
 @onready var player: Player = $Player
 @onready var inventory_interface: Control = $CanvasLayer/InventoryInterface
@@ -38,6 +42,7 @@ const NPC = preload("res://scenes/npc/npc.tscn")
 func _ready() -> void:
 	player.toggle_inventory.connect(toggle_inventory_interface)
 	inventory_interface.set_player_inventory_data(player.inventory_data)
+	day_night_cycle.day_end.connect(_on_day_end)
 	connect_external_inventory_signal()
 	color_rect.show()
 	label.hide()
@@ -59,6 +64,7 @@ func _ready() -> void:
 
 func _on_time_tick(day:int,hour:int,minute:int) -> void:
 	clock.text = str("Day: %d\nTime: %02d:%02d") %[day,hour,minute]
+	current_day = day
 
 func spawn_npc() -> void:
 	var npc = NPC.instantiate()
@@ -212,9 +218,28 @@ func toggle_inventory_interface(external_inventory_owner = null) -> void:
 
 func _on_npc_spawn_timer_timeout() -> void:
 	var chance = randi_range(1,100)
-	if chance <= npc_spawn_chance:
-		print("npc in")
-		spawn_npc()
-	else:
-		print('npc not spawn')
-		npc_spawn_timer.start()
+	if hour <= 19:
+		if chance <= npc_spawn_chance:
+			print("npc in")
+			spawn_npc()
+		else:
+			print('npc not spawn')
+			npc_spawn_timer.start()
+	elif hour > 19:
+		if chance <= npc_spawn_chance/2:
+			spawn_npc()
+		else:
+			npc_spawn_timer.start()
+
+func _on_end_day_pressed() -> void:
+	end_day_anim.play("default")
+	_on_day_end()
+
+func _on_day_end() -> void:
+	var day_end = load("res://scenes/day_end_summary.tscn")
+	GameManager.day = current_day
+	GameManager.player_inventory = player.inventory_data
+	GameManager.table_inventory = table.inventory_data
+	await get_tree().create_timer(0.5).timeout
+	get_tree().paused = true
+	get_tree().change_scene_to_packed(day_end)

@@ -18,6 +18,8 @@ enum State {idle, walk}
 var direction = dir.down
 var state = State.idle
 
+func _ready() -> void:
+	inventory_data = GameManager.player_inventory
 
 func get_input():#easy get input, must bind key with get_vector() accordingly
 	var input_direction = Input.get_vector('left','right','up','down')

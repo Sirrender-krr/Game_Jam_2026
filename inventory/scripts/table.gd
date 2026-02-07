@@ -12,6 +12,7 @@ var inventory_data: InventoryData
 
 
 func _ready() -> void:
+	inv_data = GameManager.table_inventory
 	inventory_data = inv_data.duplicate()
 
 

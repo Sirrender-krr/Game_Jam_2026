@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://dbu2s0t1266h5"]
+[gd_scene load_steps=42 format=3 uid="uid://dbu2s0t1266h5"]
 
 [ext_resource type="Script" uid="uid://30ddpxufjhvm" path="res://scripts/world.gd" id="1_71j4m"]
 [ext_resource type="PackedScene" uid="uid://b8tb5a0e70mwc" path="res://scenes/player.tscn" id="1_nnsk1"]
@@ -149,6 +149,38 @@ animations = [{
 "speed": 50.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_oo54l"]
+atlas = ExtResource("9_e3hyu")
+region = Rect2(32, 576, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kpybi"]
+atlas = ExtResource("9_e3hyu")
+region = Rect2(64, 576, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ctatt"]
+atlas = ExtResource("9_e3hyu")
+region = Rect2(96, 576, 32, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xgqkh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oo54l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kpybi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ctatt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oo54l")
+}],
+"loop": false,
+"name": &"default",
+"speed": 30.0
+}]
+
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_e3hyu"]
 vertices = PackedVector2Array(383.227, 59.0781, 387.75, 115.039, 320.961, 116, 325.102, 92.0625, 169.047, 87.9531, 269, 59, 269, 90.9375, 167.75, 95.75, 167.742, 81.4063, 324.094, 60.8984, -47.8516, 116, 160, 97.0391, -45.1328, 59.9922, 160, 78.8438, 152.258, 81.4063, 150.953, 87.9531, 152.25, 95.75)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(5, 4, 8), PackedInt32Array(3, 9, 0), PackedInt32Array(6, 3, 2, 10, 11), PackedInt32Array(10, 12, 5, 13), PackedInt32Array(5, 8, 13), PackedInt32Array(10, 13, 14), PackedInt32Array(10, 14, 15), PackedInt32Array(10, 15, 16), PackedInt32Array(10, 16, 11), PackedInt32Array(6, 11, 7)])
@@ -162,10 +194,10 @@ npc_spawn_chance = 50
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -11
-offset_left = -165.0
-offset_top = -174.0
-offset_right = 1512.0
-offset_bottom = 343.0
+offset_left = -293.0
+offset_top = -164.0
+offset_right = 1384.0
+offset_bottom = 353.0
 color = Color(0.631373, 0.631373, 0.631373, 1)
 
 [node name="Player" parent="." instance=ExtResource("1_nnsk1")]
@@ -178,6 +210,7 @@ limit_right = 320
 limit_bottom = 22
 
 [node name="Label" type="Label" parent="Player"]
+z_index = 3
 offset_left = -20.0
 offset_top = -41.0
 offset_right = 20.0
@@ -261,88 +294,124 @@ layout_mode = 1
 stream = ExtResource("9_q5onr")
 bus = &"coin"
 
-[node name="GUI" type="Node" parent="CanvasLayer"]
+[node name="GUI" type="Panel" parent="CanvasLayer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -52.0
+grow_horizontal = 2
+grow_vertical = 0
 
 [node name="MouseAnimationLeft" type="AnimatedSprite2D" parent="CanvasLayer/GUI"]
-position = Vector2(103.5, 160)
+position = Vector2(63.5, 32)
 sprite_frames = SubResource("SpriteFrames_oo54l")
 frame = 1
 frame_progress = 1.0
 
 [node name="MouseAnimationRight" type="AnimatedSprite2D" parent="CanvasLayer/GUI"]
-position = Vector2(191.5, 160)
+position = Vector2(151.5, 32)
 sprite_frames = SubResource("SpriteFrames_oo54l")
 frame = 1
 frame_progress = 1.0
 
 [node name="Tab_animation" type="AnimatedSprite2D" parent="CanvasLayer/GUI"]
-position = Vector2(64, 136)
+position = Vector2(64, 8)
 sprite_frames = SubResource("SpriteFrames_xo05s")
 animation = &"tab"
 frame = 3
 frame_progress = 1.0
 
 [node name="E_animation" type="AnimatedSprite2D" parent="CanvasLayer/GUI"]
-position = Vector2(152, 136)
+position = Vector2(152, 8)
 sprite_frames = SubResource("SpriteFrames_pm21f")
 animation = &"e"
 frame = 3
 frame_progress = 1.0
 
 [node name="ShiftAnimation" type="AnimatedSprite2D" parent="CanvasLayer/GUI"]
-position = Vector2(240, 136)
+position = Vector2(240, 8)
 sprite_frames = SubResource("SpriteFrames_2lf6f")
 animation = &"shift"
 
 [node name="Label" type="Label" parent="CanvasLayer/GUI"]
+layout_mode = 0
 offset_left = 80.0
-offset_top = 132.0
+offset_top = 4.0
 offset_right = 116.0
-offset_bottom = 140.0
+offset_bottom = 12.0
 scale = Vector2(1.5, 1.5)
 theme_override_colors/font_color = Color(0.0347631, 0.272509, 0.999993, 1)
 theme_override_font_sizes/font_size = 6
 text = "Inventory"
 
 [node name="Label4" type="Label" parent="CanvasLayer/GUI"]
-offset_left = 119.5
-offset_top = 152.0
-offset_right = 131.5
-offset_bottom = 160.0
+layout_mode = 0
+offset_left = 79.5
+offset_top = 24.0
+offset_right = 91.5
+offset_bottom = 32.0
 scale = Vector2(1.5, 1.5)
 theme_override_colors/font_color = Color(0.0347631, 0.272509, 0.999993, 1)
 theme_override_font_sizes/font_size = 6
 text = "All"
 
 [node name="Label5" type="Label" parent="CanvasLayer/GUI"]
-offset_left = 207.5
-offset_top = 152.0
-offset_right = 219.5
-offset_bottom = 160.0
+layout_mode = 0
+offset_left = 167.5
+offset_top = 24.0
+offset_right = 179.5
+offset_bottom = 32.0
 scale = Vector2(1.5, 1.5)
 theme_override_colors/font_color = Color(0.0347631, 0.272509, 0.999993, 1)
 theme_override_font_sizes/font_size = 6
 text = "One"
 
 [node name="Label2" type="Label" parent="CanvasLayer/GUI"]
+layout_mode = 0
 offset_left = 162.0
-offset_top = 132.0
+offset_top = 4.0
 offset_right = 198.0
-offset_bottom = 140.0
+offset_bottom = 12.0
 scale = Vector2(1.5, 1.5)
 theme_override_colors/font_color = Color(0.0347631, 0.272509, 0.999993, 1)
 theme_override_font_sizes/font_size = 6
 text = "Interact"
 
 [node name="Label3" type="Label" parent="CanvasLayer/GUI"]
+layout_mode = 0
 offset_left = 256.0
-offset_top = 132.0
+offset_top = 4.0
 offset_right = 292.0
-offset_bottom = 140.0
+offset_bottom = 12.0
 scale = Vector2(1.5, 1.5)
 theme_override_colors/font_color = Color(0.0347631, 0.272509, 0.999993, 1)
 theme_override_font_sizes/font_size = 6
 text = "Run"
+
+[node name="EndDay" type="Button" parent="CanvasLayer/GUI"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = 224.0
+offset_top = 24.0
+offset_right = 256.0
+offset_bottom = 40.0
+
+[node name="EndDayAnim" type="AnimatedSprite2D" parent="CanvasLayer/GUI/EndDay"]
+position = Vector2(16, 8)
+scale = Vector2(1.3125, 1)
+sprite_frames = SubResource("SpriteFrames_xgqkh")
+frame = 3
+frame_progress = 1.0
+
+[node name="Label" type="Label" parent="CanvasLayer/GUI/EndDay"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 31.0
+offset_bottom = 9.0
+theme_override_font_sizes/font_size = 6
+text = "End day"
 
 [node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("11_o8fc1")]
 visible = false
@@ -407,4 +476,5 @@ time: 99:99"
 
 [connection signal="gui_input" from="CanvasLayer/InventoryInterface" to="CanvasLayer/InventoryInterface" method="_on_gui_input"]
 [connection signal="visibility_changed" from="CanvasLayer/InventoryInterface" to="CanvasLayer/InventoryInterface" method="_on_visibility_changed"]
+[connection signal="pressed" from="CanvasLayer/GUI/EndDay" to="." method="_on_end_day_pressed"]
 [connection signal="timeout" from="NpcSpawnTimer" to="." method="_on_npc_spawn_timer_timeout"]

@@ -3,7 +3,7 @@ extends Control
 @onready var button: Button = $Button
 @onready var animated_sprite_2d: AnimatedSprite2D = $Button/AnimatedSprite2D
 @onready var player: Player = $Player
-var WORLD = preload("res://scenes/world.tscn")
+#var WORLD = preload("res://scenes/world.tscn")
 
 func _ready() -> void:
 	animated_sprite_2d.frame= 0

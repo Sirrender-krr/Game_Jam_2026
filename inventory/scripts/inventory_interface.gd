@@ -191,13 +191,16 @@ func gain_money_npc(slot_data:SlotData,qty:int) -> void:
 				i.quantity += slot_data.item_data.sell * qty
 				coins = i.quantity
 				inventory.inventory_updated.emit(inventory)
+				GameManager.coin_gain += slot_data.item_data.sell * qty
 				return
 
 	for index in range(slots.size()):
 		if !slots[index]:
 			coin.quantity = slot_data.item_data.sell * qty
 			slots[index] = coin
+			coins = coin
 			inventory.inventory_updated.emit(inventory)
+			GameManager.coin_gain += slot_data.item_data.sell * qty
 			return
 
 func can_loss_money(slot_data:SlotData):
@@ -242,8 +245,9 @@ func loss_money(slot_data:SlotData,qty:int) -> void:
 			if i.item_data is ItemDataCoin:
 				if i.quantity >= slot_data.item_data.buy * qty:
 					i.quantity -= slot_data.item_data.buy * qty
-					coins = i.quantity
+					#coins = i.quantity
 					inventory.inventory_updated.emit(inventory)
+					GameManager.coin_loss += slot_data.item_data.buy * qty
 					return
 		#else:
 			#for index in range(slots.size()):
