@@ -16,6 +16,7 @@ const ingame_to_real_minute_duration = (2* PI)/minutes_per_day
 var current_day
 var time: float = 0.0
 var past_minute:float =-1.0
+var force_day_end: int = 23
 
 func _ready() -> void:
 	time = ingame_to_real_minute_duration * initial_hour * minutes_per_hour
@@ -41,5 +42,5 @@ func _recalculate_time() -> void:
 	if past_minute != minute: #this line is to opmize not send a signal too much
 		past_minute = minute
 		time_tick.emit(current_day,hour,minute)
-		if hour == 20:
+		if hour == force_day_end:
 			day_end.emit()

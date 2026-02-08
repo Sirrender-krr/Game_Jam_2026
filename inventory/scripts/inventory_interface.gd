@@ -9,7 +9,6 @@ var coins:
 	set(value):
 		coins = value
 		coin_sound.play()
-		print(coins)
 @export var COIN: SlotData
 
 

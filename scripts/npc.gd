@@ -56,7 +56,7 @@ func _ready() -> void:
 	var chosen_item_qty = random_item_and_qty()
 	slot.item_data = mask[chosen_item_qty[0]]
 	slot.quantity = chosen_item_qty[1]
-	print("name: %s\nbuy: %s\nqty: %s" %[slot.item_data.name,slot.item_data.sell,slot.quantity])
+	#print("name: %s\nbuy: %s\nqty: %s" %[slot.item_data.name,slot.item_data.sell,slot.quantity])
 	call_deferred("assign_marker")
 	nav2d.navigation_finished.connect(_on_target_reached)
 	chat_box.hide()
@@ -143,7 +143,6 @@ func _physics_process(delta):
 	move_and_slide()
 	handle_animation()
 	navigate(delta)
-	interact()
 	#manual_navigation() #debug
 
 #
@@ -331,10 +330,4 @@ func can_run() -> bool:
 func can_interact() -> bool:
 	return state == State.idle or state == State.walk
 
-func interact() -> void:
-	if can_interact() and Input.is_action_just_pressed("interact")\
-	 and interacting:
-		interacting.player_interact()
-	else:
-		pass
 #endregion

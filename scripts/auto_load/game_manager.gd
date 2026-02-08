@@ -3,7 +3,6 @@ extends Node
 var day: int:
 	set(d):
 		day = d
-		print(day)
 var coin_gain: int
 var coin_loss: int
 var player_inventory : InventoryData = preload("res://inventory/resources/player_inventory.tres")

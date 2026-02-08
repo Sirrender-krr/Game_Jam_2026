@@ -62,9 +62,10 @@ func _ready() -> void:
 	await get_tree(). create_timer(10).timeout
 	spawn_npc()
 
-func _on_time_tick(day:int,hour:int,minute:int) -> void:
-	clock.text = str("Day: %d\nTime: %02d:%02d") %[day,hour,minute]
+func _on_time_tick(day:int,_hour:int,minute:int) -> void:
+	clock.text = str("Day: %d\nTime: %02d:%02d") %[day,_hour,minute]
 	current_day = day
+	hour = _hour
 
 func spawn_npc() -> void:
 	var npc = NPC.instantiate()
@@ -76,7 +77,7 @@ func spawn_npc() -> void:
 	npc_spawn_timer.wait_time = randi_range(1,10)
 	npc_spawn_timer.start()
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("inventory"):
 			tab_animation.play()
 	if Input.is_action_just_pressed("interact"):
@@ -92,7 +93,6 @@ func _input(event: InputEvent) -> void:
 		mouse_animation_left.flip_h = true
 		mouse_animation_left.play_backwards()
 	if Input.is_action_just_pressed("right_click"):
-		print('click')
 		mouse_animation_right.play()
 	elif Input.is_action_just_released("right_click"):
 		mouse_animation_right.play_backwards()
@@ -218,15 +218,13 @@ func toggle_inventory_interface(external_inventory_owner = null) -> void:
 
 func _on_npc_spawn_timer_timeout() -> void:
 	var chance = randi_range(1,100)
-	if hour <= 19:
+	if hour <= 17:
 		if chance <= npc_spawn_chance:
-			print("npc in")
 			spawn_npc()
 		else:
-			print('npc not spawn')
 			npc_spawn_timer.start()
-	elif hour > 19:
-		if chance <= npc_spawn_chance/2:
+	else:
+		if chance <= 5:
 			spawn_npc()
 		else:
 			npc_spawn_timer.start()
